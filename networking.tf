@@ -36,7 +36,7 @@ metadata:
 spec:
   secretName: certificate
   dnsNames:
-    - api.tobias-z.com
+    - api.jplm.dk
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer
@@ -60,12 +60,12 @@ resource "kubernetes_ingress_v1" "ingress" {
   spec {
     tls {
       hosts = [
-        "api.tobias-z.com"
+        "api.jplm.dk"
       ]
       secret_name = "certificate"
     }
     rule {
-      host = "api.tobias-z.com"
+      host = "api.jplm.dk"
       http {
         path {
           backend {
