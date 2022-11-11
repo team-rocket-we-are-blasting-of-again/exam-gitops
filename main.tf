@@ -13,5 +13,5 @@ resource "digitalocean_kubernetes_cluster" "mtogo" {
 }
 
 data "digitalocean_kubernetes_cluster" "mtogo" {
-  name = "prod-cluster-01"
+  name = "mtogo"
 }
