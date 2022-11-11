@@ -6,12 +6,6 @@ module "domain" {
   ttl_sec    = 300
 }
 
-resource "kubernetes_namespace" "devops" {
-  metadata {
-    name = "devops"
-  }
-}
-
 resource "kubectl_manifest" "cluster_issuer" {
   depends_on = [time_sleep.wait_for_helm]
   yaml_body  = <<YAML
