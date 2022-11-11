@@ -1,15 +1,21 @@
 module "domain" {
   source     = "./modules/domain"
-  domain     = "jplm.dk"
-  subdomains = ["api.jplm.dk"]
-#  target_ip  = kubernetes_ingress_v1.ingress.status.0.load_balancer.0.ingress.0.ip
-  target_ip = local.host
+  domain     = "tobias-z.com"
+  subdomains = ["api.tobias-z.com"]
+  target_ip  = kubernetes_ingress_v1.ingress.status.0.load_balancer.0.ingress.0.ip
   ttl_sec    = 300
 }
-output "test" {
-  value = local.host
+
+resource "kubernetes_namespace" "devops" {
+  metadata {
+    name = "devops"
+  }
 }
-/*
+
+output "ingress" {
+  value = kubernetes_ingress_v1.ingress
+}
+
 resource "kubectl_manifest" "cluster_issuer" {
   depends_on = [time_sleep.wait_for_helm]
   yaml_body  = <<YAML
@@ -19,7 +25,7 @@ metadata:
   name: letsencrypt-prod
 spec:
   acme:
-    email: ${var.email}
+    email: ${var.tmp_email}
     server: https://acme-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
       name: letsencrypt-secret-prod
@@ -40,7 +46,7 @@ metadata:
 spec:
   secretName: certificate
   dnsNames:
-    - user-api.tobias-z.com
+    - api.tobias-z.com
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer
@@ -48,8 +54,8 @@ YAML
 }
 
 resource "kubernetes_ingress_v1" "ingress" {
-  depends_on             = [kubectl_manifest.services, time_sleep.wait_for_helm, kubectl_manifest.certificate]
-  wait_for_load_balancer = false
+  depends_on             = [time_sleep.wait_for_helm, kubectl_manifest.certificate]
+  wait_for_load_balancer = true
   metadata {
     name = "ingress"
     annotations = {
@@ -64,17 +70,17 @@ resource "kubernetes_ingress_v1" "ingress" {
   spec {
     tls {
       hosts = [
-        "user-api.tobias-z.com"
+        "api.tobias-z.com"
       ]
       secret_name = "certificate"
     }
     rule {
-      host = "user-api.tobias-z.com"
+      host = "api.tobias-z.com"
       http {
         path {
           backend {
             service {
-              name = "user-api"
+              name = "gateway"
               port {
                 number = 8080
               }
@@ -86,4 +92,4 @@ resource "kubernetes_ingress_v1" "ingress" {
       }
     }
   }
-}*/
+}
