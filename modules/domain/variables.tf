@@ -11,6 +11,6 @@ variable "target_ip" {
 }
 
 variable "subdomains" {
-  type = set(string)
+  type    = set(string)
   default = []
 }
