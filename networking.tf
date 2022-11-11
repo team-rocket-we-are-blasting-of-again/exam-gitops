@@ -1,7 +1,7 @@
 module "domain" {
   source     = "./modules/domain"
-  domain     = "tobias-z.com"
-  subdomains = ["api.tobias-z.com"]
+  domain     = "jplm.dk"
+  subdomains = ["api.jplm.dk"]
   target_ip  = kubernetes_ingress_v1.ingress.status.0.load_balancer.0.ingress.0.ip
   ttl_sec    = 300
 }
@@ -10,10 +10,6 @@ resource "kubernetes_namespace" "devops" {
   metadata {
     name = "devops"
   }
-}
-
-output "ingress" {
-  value = kubernetes_ingress_v1.ingress
 }
 
 resource "kubectl_manifest" "cluster_issuer" {
@@ -25,7 +21,7 @@ metadata:
   name: letsencrypt-prod
 spec:
   acme:
-    email: ${var.tmp_email}
+    email: ${var.email}
     server: https://acme-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
       name: letsencrypt-secret-prod

@@ -8,7 +8,7 @@ terraform {
   }
   required_providers {
     digitalocean = {
-      source  = "digitalocean/digitalocean"
+      source = "digitalocean/digitalocean"
       version = "~> 2.0"
     }
     kubernetes = {
@@ -28,7 +28,7 @@ terraform {
 
 # Configure the DigitalOcean Provider
 provider "digitalocean" {
-  token = var.do_tmp_token
+  token = var.do_token
 }
 
 provider "kubernetes" {
