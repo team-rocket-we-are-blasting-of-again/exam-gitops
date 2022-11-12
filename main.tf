@@ -11,7 +11,3 @@ resource "digitalocean_kubernetes_cluster" "mtogo" {
     max_nodes  = 2
   }
 }
-
-data "digitalocean_kubernetes_cluster" "mtogo" {
-  name = "mtogo"
-}

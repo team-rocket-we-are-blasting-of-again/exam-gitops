@@ -2,14 +2,10 @@ module "domain" {
   source     = "./modules/domain"
   domain     = "jplm.dk"
   subdomains = ["api.jplm.dk"]
-#  target_ip  = kubernetes_ingress_v1.ingress.status.0.load_balancer.0.ingress.0.ip
-  target_ip = local.host
+  target_ip  = kubernetes_ingress_v1.ingress.status.0.load_balancer.0.ingress.0.ip
   ttl_sec    = 300
 }
-output "test" {
-  value = local.host
-}
-/*
+
 resource "kubectl_manifest" "cluster_issuer" {
   depends_on = [time_sleep.wait_for_helm]
   yaml_body  = <<YAML
@@ -40,7 +36,7 @@ metadata:
 spec:
   secretName: certificate
   dnsNames:
-    - user-api.tobias-z.com
+    - api.jplm.dk
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer
@@ -48,8 +44,8 @@ YAML
 }
 
 resource "kubernetes_ingress_v1" "ingress" {
-  depends_on             = [kubectl_manifest.services, time_sleep.wait_for_helm, kubectl_manifest.certificate]
-  wait_for_load_balancer = false
+  depends_on             = [time_sleep.wait_for_helm, kubectl_manifest.certificate]
+  wait_for_load_balancer = true
   metadata {
     name = "ingress"
     annotations = {
@@ -64,17 +60,17 @@ resource "kubernetes_ingress_v1" "ingress" {
   spec {
     tls {
       hosts = [
-        "user-api.tobias-z.com"
+        "api.jplm.dk"
       ]
       secret_name = "certificate"
     }
     rule {
-      host = "user-api.tobias-z.com"
+      host = "api.jplm.dk"
       http {
         path {
           backend {
             service {
-              name = "user-api"
+              name = "gateway"
               port {
                 number = 8080
               }
@@ -86,4 +82,4 @@ resource "kubernetes_ingress_v1" "ingress" {
       }
     }
   }
-}*/
+}
