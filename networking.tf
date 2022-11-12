@@ -1,7 +1,7 @@
 module "domain" {
   source     = "./modules/domain"
-  domain     = "jplm.com"
-  subdomains = ["api.jplm.com"]
+  domain     = "jplm.dk"
+  subdomains = ["api.jplm.dk"]
   target_ip  = kubernetes_ingress_v1.ingress.status.0.load_balancer.0.ingress.0.ip
   ttl_sec    = 300
 }
@@ -36,7 +36,7 @@ metadata:
 spec:
   secretName: certificate
   dnsNames:
-    - api.jplm.com
+    - api.jplm.dk
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer
@@ -60,12 +60,12 @@ resource "kubernetes_ingress_v1" "ingress" {
   spec {
     tls {
       hosts = [
-        "api.jplm.com"
+        "api.jplm.dk"
       ]
       secret_name = "certificate"
     }
     rule {
-      host = "api.jplm.com"
+      host = "api.jplm.dk"
       http {
         path {
           backend {
