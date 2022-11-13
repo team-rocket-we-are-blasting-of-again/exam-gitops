@@ -13,13 +13,6 @@ terraform {
 
 resource "kubernetes_namespace" "devops" {
   metadata {
-    name = local.namespace
+    name = "devops"
   }
-}
-
-resource "time_sleep" "prerequisites" {
-  depends_on = [
-    kubernetes_namespace.devops
-  ]
-  create_duration = "10s"
 }

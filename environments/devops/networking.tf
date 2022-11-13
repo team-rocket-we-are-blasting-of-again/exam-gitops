@@ -1,5 +1,4 @@
 resource "kubectl_manifest" "cluster_issuer" {
-  depends_on = [time_sleep.prerequisites]
   yaml_body  = <<YAML
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
@@ -20,7 +19,6 @@ YAML
 }
 
 resource "kubectl_manifest" "certificate" {
-  depends_on = [kubectl_manifest.cluster_issuer]
   yaml_body  = <<YAML
 apiVersion: cert-manager.io/v1
 kind: Certificate
@@ -39,7 +37,6 @@ YAML
 }
 
 resource "kubernetes_ingress_v1" "ingress" {
-  depends_on             = [time_sleep.prerequisites]
   wait_for_load_balancer = true
   metadata {
     namespace = local.namespace
