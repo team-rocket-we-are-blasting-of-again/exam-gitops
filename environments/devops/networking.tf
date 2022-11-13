@@ -1,15 +1,3 @@
-module "domain" {
-  source     = "../../modules/domain"
-  depends_on = [time_sleep.prerequisites]
-  domain     = var.website
-  subdomains = [
-    format("devops.%s", var.website),
-    format("build.devops.%s", var.website)
-  ]
-  target_ip  = kubernetes_ingress_v1.ingress.status.0.load_balancer.0.ingress.0.ip
-  ttl_sec    = 300
-}
-
 resource "kubectl_manifest" "cluster_issuer" {
   depends_on = [time_sleep.prerequisites]
   yaml_body  = <<YAML

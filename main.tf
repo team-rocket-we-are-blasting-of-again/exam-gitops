@@ -15,6 +15,17 @@ resource "digitalocean_kubernetes_cluster" "mtogo" {
 module "devops" {
   depends_on = [time_sleep.wait_for_helm]
   source     = "./environments/devops"
-  email      = var.tmp_email
+  email      = var.email
   website    = var.website
+}
+
+module "domain" {
+  source     = "./modules/domain"
+  domain     = var.website
+  subdomains = [
+    format("devops.%s", var.website),
+    format("build.devops.%s", var.website)
+  ]
+  target_ip  =  module.devops.load_balancer_ip
+  ttl_sec    = 300
 }
