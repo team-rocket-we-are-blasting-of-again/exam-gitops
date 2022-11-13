@@ -39,14 +39,14 @@ YAML
 }
 
 resource "kubernetes_ingress_v1" "ingress" {
-  depends_on = [time_sleep.prerequisites]
+  depends_on             = [time_sleep.prerequisites]
   wait_for_load_balancer = true
   metadata {
     namespace = local.namespace
-    name = "ingress"
+    name      = "ingress"
     annotations = {
       "kubernetes.io/ingress.class"                    = "nginx"
-      "cert-manager.io/cluster-issuer"                 =  local.cluster_issuer_name
+      "cert-manager.io/cluster-issuer"                 = local.cluster_issuer_name
       "nginx.ingress.kubernetes.io/ssl-redirect"       = "true"
       "nginx.ingress.kubernetes.io/force-ssl-redirect" = "true"
       "nginx.ingress.kubernetes.io/limit-connections"  = "2"  # Connections per ip (could maybe be increased)
