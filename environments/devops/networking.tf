@@ -1,18 +1,23 @@
 module "domain" {
-  source     = "./modules/domain"
-  domain     = "jplm.dk"
-  subdomains = ["api.jplm.dk"]
+  source     = "../../modules/domain"
+  depends_on = [time_sleep.prerequisites]
+  domain     = var.website
+  subdomains = [
+    format("devops.%s", var.website),
+    format("build.devops.%s", var.website)
+  ]
   target_ip  = kubernetes_ingress_v1.ingress.status.0.load_balancer.0.ingress.0.ip
   ttl_sec    = 300
 }
 
 resource "kubectl_manifest" "cluster_issuer" {
-  depends_on = [time_sleep.wait_for_helm]
+  depends_on = [time_sleep.prerequisites]
   yaml_body  = <<YAML
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
-  name: letsencrypt-prod
+  name: ${local.cluster_issuer_name}
+  namespace: ${local.namespace}
 spec:
   acme:
     email: ${var.email}
@@ -32,25 +37,28 @@ resource "kubectl_manifest" "certificate" {
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: certificate
+  name: ${local.secret_name}
+  namespace: ${local.namespace}
 spec:
-  secretName: certificate
+  secretName: ${local.secret_name}
   dnsNames:
-    - api.jplm.dk
+    - ${format("devops.%s", var.website)}
+    - ${format("build.devops.%s", var.website)}
   issuerRef:
-    name: letsencrypt-prod
+    name: ${local.cluster_issuer_name}
     kind: ClusterIssuer
 YAML
 }
 
 resource "kubernetes_ingress_v1" "ingress" {
-  depends_on             = [time_sleep.wait_for_helm, kubectl_manifest.certificate]
+  depends_on = [time_sleep.prerequisites]
   wait_for_load_balancer = true
   metadata {
+    namespace = local.namespace
     name = "ingress"
     annotations = {
       "kubernetes.io/ingress.class"                    = "nginx"
-      "cert-manager.io/cluster-issuer"                 = "letsencrypt-prod"
+      "cert-manager.io/cluster-issuer"                 =  local.cluster_issuer_name
       "nginx.ingress.kubernetes.io/ssl-redirect"       = "true"
       "nginx.ingress.kubernetes.io/force-ssl-redirect" = "true"
       "nginx.ingress.kubernetes.io/limit-connections"  = "2"  # Connections per ip (could maybe be increased)
@@ -60,17 +68,18 @@ resource "kubernetes_ingress_v1" "ingress" {
   spec {
     tls {
       hosts = [
-        "api.jplm.dk"
+        format("devops.%s", var.website),
+        format("build.devops.%s", var.website)
       ]
-      secret_name = "certificate"
+      secret_name = local.secret_name
     }
     rule {
-      host = "api.jplm.dk"
+      host = format("build.devops.%s", var.website)
       http {
         path {
           backend {
             service {
-              name = "gateway"
+              name = "jenkins"
               port {
                 number = 8080
               }
