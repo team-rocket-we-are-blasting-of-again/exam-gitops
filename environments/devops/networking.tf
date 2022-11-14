@@ -1,5 +1,5 @@
 resource "kubectl_manifest" "cluster_issuer" {
-  yaml_body  = <<YAML
+  yaml_body = <<YAML
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
@@ -19,7 +19,7 @@ YAML
 }
 
 resource "kubectl_manifest" "certificate" {
-  yaml_body  = <<YAML
+  yaml_body = <<YAML
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
@@ -64,7 +64,7 @@ resource "kubernetes_ingress_v1" "ingress" {
         path {
           backend {
             service {
-              name = "jenkins"
+              name = "jenkins" # service med navn jenkins
               port {
                 number = 8080
               }
