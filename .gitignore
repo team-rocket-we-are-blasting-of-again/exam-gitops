@@ -30,3 +30,5 @@ override.tf.json
 
 # Kube ignore
 .kubeconfig
+
+.idea
