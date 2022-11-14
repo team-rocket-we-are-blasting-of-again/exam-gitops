@@ -1,60 +1,156 @@
-# https://jenkinsci.github.io/kubernetes-operator/docs/getting-started/latest/deploying-jenkins/
-resource "kubectl_manifest" "jenkins" {
-  yaml_body = <<YAML
-apiVersion: jenkins.io/v1alpha2
-kind: Jenkins
-metadata:
-  name: jenkins
-  namespace: ${local.namespace}
-spec:
-  configurationAsCode:
-    configurations: []
-    secret:
-      name: ""
-  groovyScripts:
-    configurations: []
-    secret:
-      name: ""
-  jenkinsAPISettings:
-    authorizationStrategy: createUser
-  master:
-    disableCSRFProtection: false
-    containers:
-      - name: jenkins-master
-        image: jenkins/jenkins:2.319.1-lts-alpine
-        imagePullPolicy: Always
-        livenessProbe:
-          failureThreshold: 12
-          httpGet:
-            path: /login
-            port: http
-            scheme: HTTP
-          initialDelaySeconds: 100
-          periodSeconds: 10
-          successThreshold: 1
-          timeoutSeconds: 5
-        readinessProbe:
-          failureThreshold: 10
-          httpGet:
-            path: /login
-            port: http
-            scheme: HTTP
-          initialDelaySeconds: 80
-          periodSeconds: 10
-          successThreshold: 1
-          timeoutSeconds: 1
-        resources:
-          limits:
-            cpu: 1000m
-            memory: 2Gi
-          requests:
-            cpu: "1"
-            memory: 500Mi
-  seedJobs:
-    - id: jenkins-operator
-      targets: "cicd/jobs/*.jenkins"
-      description: "Jenkins Operator repository"
-      repositoryBranch: master
-      repositoryUrl: https://github.com/jenkinsci/kubernetes-operator.git
-YAML
+resource "kubernetes_cluster_role" "jenkins" {
+  metadata {
+    name = "jenkins-admin"
+  }
+  rule {
+    api_groups = [""]
+    verbs = ["*"]
+    resources = ["*"]
+  }
+}
+
+resource "kubernetes_manifest" "jenkins_service_account" {
+  manifest = {
+    "apiVersion" = "v1"
+    "kind"       = "ServiceAccount"
+    "metadata" = {
+      "namespace" = local.namespace
+      "name"      = "jenkins-admin"
+    }
+    "automountServiceAccountToken" = true
+  }
+}
+
+resource "kubernetes_cluster_role_binding" "jenkins" {
+  metadata {
+    name = "jenkins-admin"
+  }
+  role_ref {
+    api_group = "rbac.authorization.k8s.io"
+    kind      = "ClusterRole"
+    name      = "jenkins-admin"
+  }
+  subject {
+    kind = "ServiceAccount"
+    name = "jenkins-admin"
+    namespace = local.namespace
+  }
+}
+
+resource "kubernetes_persistent_volume_claim" "jenkins_volume" {
+  metadata {
+    name = "jenkins-pv-claim"
+    namespace = local.namespace
+  }
+  spec {
+    access_modes = ["ReadWriteOnce"]
+    resources {
+      requests = {
+        storage = "3Gi"
+      }
+    }
+  }
+}
+
+resource "kubernetes_deployment" "jenkins" {
+  metadata {
+    name = "jenkins"
+    namespace = local.namespace
+  }
+  spec {
+    selector {
+      match_labels = {
+        app = "jenkins-server"
+      }
+    }
+    template {
+      metadata {
+        labels = {
+          app = "jenkins-server"
+        }
+      }
+      spec {
+        security_context {
+          fs_group = "1000"
+          run_as_user = "1000"
+        }
+        service_account_name = "jenkins-admin"
+        container {
+          name = "jenkins"
+          image = "jenkins/jenkins:lts"
+#          resources {
+#            limits = {
+#              memory = "1Gi"
+#              cpu = "500m"
+#            }
+#            requests = {
+#              memory = "500Mi"
+#              cpu = "500m"
+#            }
+#          }
+          port {
+            name = "httpport"
+            container_port = 8080
+          }
+          port {
+            name = "jnlpport"
+            container_port = 50000
+          }
+          liveness_probe {
+            http_get {
+              path = "/login"
+              port = 8080
+            }
+            initial_delay_seconds = 90
+            period_seconds = 10
+            timeout_seconds = 5
+            failure_threshold = 5
+          }
+          readiness_probe {
+            http_get {
+              path = "/login"
+              port = 8080
+            }
+            initial_delay_seconds = 60
+            period_seconds = 10
+            timeout_seconds = 5
+            failure_threshold = 3
+          }
+          volume_mount {
+            name       = "jenkins-data"
+            mount_path = "/var/jenkins_home"
+          }
+        }
+        volume {
+          name = "jenkins-data"
+          persistent_volume_claim {
+            claim_name = "jenkins-pv-claim"
+          }
+        }
+      }
+    }
+  }
+}
+
+resource "kubernetes_service" "jenkins" {
+  metadata {
+    name = "jenkins-service"
+    namespace = local.namespace
+    annotations = {
+      "prometheus.io/scrape" = "true"
+      "prometheus.io/path" =   "/"
+      "prometheus.io/port" =   "8080"
+    }
+  }
+  spec {
+    selector = {
+      app = "jenkins-server"
+    }
+    port {
+      port = 8080
+      target_port = "8080"
+      node_port = 32000 # This should not be exposed, but im not sure what is wrong with ingress... Maybe some sort of DNS problem?
+    }
+    type = "NodePort"
+  }
 }
