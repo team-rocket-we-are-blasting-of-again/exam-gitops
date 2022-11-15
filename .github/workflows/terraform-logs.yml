@@ -46,7 +46,7 @@ jobs:
               return comment.user.type === 'Bot' && comment.body.includes('Terraform Format and Style')
             })
             // 2. Prepare format of the comment
-            const output = `#### Terraform Format and Style 🖌\`Success\`
+            const output = `#### Terraform Format and Style 🖌\`success\`
             #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
             #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
             <details><summary>Validation Output</summary>
