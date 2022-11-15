@@ -1,4 +1,4 @@
-# TODO
+# IAC
 
 ## Environment information
 
@@ -18,8 +18,9 @@ They are separated using namespaces, and will be prioritized through the Priorit
 
 ### Scripts
 
-Provides scripts to allow running scripts in all terraform modules. 
+Provides scripts to allow running scripts in all terraform modules.
 Example:
+
 ```bash
 sh scripts/execute.sh validate
 ```
