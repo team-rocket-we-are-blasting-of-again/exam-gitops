@@ -149,8 +149,6 @@ resource "kubernetes_service" "jenkins" {
     port {
       port = 8080
       target_port = "8080"
-      node_port = 32000 # This should not be exposed, but im not sure what is wrong with ingress... Maybe some sort of DNS problem?
     }
-    type = "NodePort"
   }
 }
