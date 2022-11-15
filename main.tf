@@ -23,8 +23,7 @@ module "domain" {
   source = "./modules/domain"
   domain = var.website
   subdomains = [
-    format("devops.%s", var.website),
-    format("build.devops.%s", var.website)
+    "build",
   ]
   target_ip = module.devops.load_balancer_ip
   ttl_sec   = 300

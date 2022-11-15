@@ -4,7 +4,6 @@ apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
   name: ${local.cluster_issuer_name}
-  namespace: ${local.namespace}
 spec:
   acme:
     email: ${var.email}
@@ -19,6 +18,7 @@ YAML
 }
 
 resource "kubectl_manifest" "certificate" {
+  depends_on = [kubectl_manifest.cluster_issuer]
   yaml_body = <<YAML
 apiVersion: cert-manager.io/v1
 kind: Certificate
@@ -28,8 +28,7 @@ metadata:
 spec:
   secretName: ${local.secret_name}
   dnsNames:
-    - ${format("devops.%s", var.website)}
-    - ${format("build.devops.%s", var.website)}
+    - ${format("build.%s", var.website)}
   issuerRef:
     name: ${local.cluster_issuer_name}
     kind: ClusterIssuer
@@ -37,6 +36,7 @@ YAML
 }
 
 resource "kubernetes_ingress_v1" "ingress" {
+  depends_on = [kubectl_manifest.certificate]
   wait_for_load_balancer = true
   metadata {
     namespace = local.namespace
@@ -53,18 +53,17 @@ resource "kubernetes_ingress_v1" "ingress" {
   spec {
     tls {
       hosts = [
-        format("devops.%s", var.website),
-        format("build.devops.%s", var.website)
+        format("build.%s", var.website),
       ]
       secret_name = local.secret_name
     }
     rule {
-      host = format("build.devops.%s", var.website)
+      host = format("build.%s", var.website)
       http {
         path {
           backend {
             service {
-              name = "jenkins" # service med navn jenkins
+              name = "jenkins-service"
               port {
                 number = 8080
               }
