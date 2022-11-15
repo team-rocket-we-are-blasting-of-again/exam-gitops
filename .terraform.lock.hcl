@@ -6,6 +6,7 @@ provider "registry.terraform.io/digitalocean/digitalocean" {
   constraints = "~> 2.0"
   hashes = [
     "h1:U4nY3MWBRroP+mmDBd5n/xHNypZEIWsWGDvU25OyW8o=",
+    "h1:i+okdskhJFSQ6McLjN7vOVXGIahtnUJKQchZC3n6E3Q=",
     "zh:0eac91063c907a822282f5f2afe2fbbfd661e5b2eb629d0acfc829cd6d56a1a8",
     "zh:129dffdc306e99b340be41b2b25be393484c59fef71a8d35d2c84502ed2b115a",
     "zh:29ce8213f8700e7f3428b4c69568e8a8b2e03823dad313b144a36c8595dc55cc",
@@ -29,6 +30,7 @@ provider "registry.terraform.io/gavinbunney/kubectl" {
   version     = "1.14.0"
   constraints = "1.14.0"
   hashes = [
+    "h1:Ck8Re/28x7VBI5ArFg0VSg1woPu/APm1ZbMuzqUdnPo=",
     "h1:gLFn+RvP37sVzp9qnFCwngRjjFV649r6apjxvJ1E/SE=",
     "zh:0350f3122ff711984bbc36f6093c1fe19043173fad5a904bce27f86afe3cc858",
     "zh:07ca36c7aa7533e8325b38232c77c04d6ef1081cb0bac9d56e8ccd51f12f2030",
@@ -46,6 +48,7 @@ provider "registry.terraform.io/hashicorp/helm" {
   version     = "2.6.0"
   constraints = "2.6.0"
   hashes = [
+    "h1:BPCVkd80+iJiI6z2M1R1+0rI0h6Q2vNGdQG3uNsTtts=",
     "h1:rGVucCeYAqklKupwoLVG5VPQTIkUhO7WGcw3WuHYrm8=",
     "zh:0ac248c28acc1a4fd11bd26a85e48ab78dd6abf0f7ac842bf1cd7edd05ac6cf8",
     "zh:3d32c8deae3740d8c5310136cc11c8afeffc350fbf88afaca0c34a223a5246f5",
@@ -66,6 +69,7 @@ provider "registry.terraform.io/hashicorp/kubernetes" {
   version     = "2.13.1"
   constraints = "2.13.1"
   hashes = [
+    "h1:PUyzpcW1hcOPj0Hu2QR/RhASeAeLhMzrNA+95tQAdL4=",
     "h1:cN3OwZvhtn/y3XfnGQ4hi+7oZp1gU2zVYhznRv2C7Qg=",
     "zh:061f6ecbbf9a3c6345b56c28ebc2966a05d8eb02f3ba56beedd66e4ea308e332",
     "zh:2119beeccb35bc5d1392b169f9fc748865261b45fb75fc8f57200e91658837c6",
@@ -86,6 +90,7 @@ provider "registry.terraform.io/hashicorp/time" {
   version = "0.9.1"
   hashes = [
     "h1:NUv/YtEytDQncBQ2mTxnUZEy/rmDlPYmE9h2iokR0vk=",
+    "h1:XYUT7lKAKuaHbCTp/WnjWBjz/C86JGvQUfS2s473Pjg=",
     "zh:00a1476ecf18c735cc08e27bfa835c33f8ac8fa6fa746b01cd3bcbad8ca84f7f",
     "zh:3007f8fc4a4f8614c43e8ef1d4b0c773a5de1dcac50e701d8abc9fdc8fcb6bf5",
     "zh:5f79d0730fdec8cb148b277de3f00485eff3e9cf1ff47fb715b1c969e5bbd9d4",

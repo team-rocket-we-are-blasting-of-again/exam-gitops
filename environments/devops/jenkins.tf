@@ -77,7 +77,7 @@ resource "kubernetes_deployment" "jenkins" {
         service_account_name = "jenkins-admin"
         container {
           name = "jenkins"
-          image = "jenkins/jenkins:lts"
+          image = "jenkins/jenkins:latest"
 #          resources {
 #            limits = {
 #              memory = "1Gi"
