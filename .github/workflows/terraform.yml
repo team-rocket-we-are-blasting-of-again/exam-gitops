@@ -1,0 +1,28 @@
+name: Terraform
+
+on: [push, pull_request]
+
+jobs:
+  terraform:
+    name: Terraform
+    runs-on: ubuntu-latest
+
+    env:
+      TF_TOKEN_app_terraform_io: ${{ secrets.TF_TOKEN }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - name: Initialize
+        run: terraform init
+
+      - name: Validate
+        run: sh scripts/execute.sh validate
+
+      - name: Deploy
+        if: github.ref == 'refs/heads/main'
+        run: terraform apply -input=false -auto-approve
