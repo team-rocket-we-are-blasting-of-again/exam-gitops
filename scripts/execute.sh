@@ -15,7 +15,7 @@ for root_dir in \
     echo "Running $script.sh in $dir_to_validate"
     sh "$curr_dir/scripts/$script.sh"
     exit_code=$?
-    if [[ $exit_code != 0 ]]; then
+    if [ $exit_code != 0 ]; then
       exit 1
     fi
   done
