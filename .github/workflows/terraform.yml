@@ -18,7 +18,7 @@ jobs:
         uses: hashicorp/setup-terraform@v2
 
       - name: Initialize
-        run: terraform init
+        run: sh scripts/execute.sh init
 
       - name: Validate
         run: sh scripts/execute.sh validate
