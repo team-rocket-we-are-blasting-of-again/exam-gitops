@@ -31,7 +31,9 @@ module "domain" {
   domain = var.website
   subdomains = [
     "build",
-    "api.staging"
+    "api.staging",
+    "api.test",
+    "api"
   ]
   target_ip = module.devops.load_balancer_ip
   ttl_sec   = 300
