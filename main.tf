@@ -19,6 +19,13 @@ module "devops" {
   website    = var.website
 }
 
+module "staging" {
+  depends_on = [time_sleep.wait_for_helm]
+  source     = "./environments/staging"
+  email      = var.email
+  website    = var.website
+}
+
 module "domain" {
   source = "./modules/domain"
   domain = var.website
