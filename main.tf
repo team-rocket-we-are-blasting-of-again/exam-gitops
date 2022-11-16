@@ -33,7 +33,10 @@ module "domain" {
     "build",
     "api.staging",
     "api.test",
-    "api"
+    "api",
+    "camunda.staging",
+    "camunda.test",
+    "camunda"
   ]
   target_ip = module.devops.load_balancer_ip
   ttl_sec   = 300
