@@ -16,3 +16,12 @@ resource "kubernetes_namespace" "production" {
     name = "production"
   }
 }
+
+resource "kubernetes_priority_class" "priority" {
+  value = 4
+  metadata {
+    name = "production"
+  }
+  global_default = false
+  description = "This priority class should be used for production environment only."
+}

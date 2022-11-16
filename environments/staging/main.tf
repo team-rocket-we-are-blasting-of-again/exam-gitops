@@ -16,3 +16,12 @@ resource "kubernetes_namespace" "staging" {
     name = "staging"
   }
 }
+
+resource "kubernetes_priority_class" "priority" {
+  value = 2
+  metadata {
+    name = "staging"
+  }
+  global_default = false
+  description = "This priority class should be used for staging environment only."
+}

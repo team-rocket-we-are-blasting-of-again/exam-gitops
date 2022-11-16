@@ -16,3 +16,12 @@ resource "kubernetes_namespace" "devops" {
     name = "devops"
   }
 }
+
+resource "kubernetes_priority_class" "priority" {
+  value = 2
+  metadata {
+    name = "devops"
+  }
+  global_default = false
+  description = "This priority class should be used for DevOps environment only."
+}
