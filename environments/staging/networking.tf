@@ -28,7 +28,7 @@ metadata:
 spec:
   secretName: ${local.secret_name}
   dnsNames:
-    - ${format("build.%s", var.website)}
+    - ${format("api.staging.%s", var.website)}
   issuerRef:
     name: ${local.cluster_issuer_name}
     kind: ClusterIssuer
@@ -53,17 +53,17 @@ resource "kubernetes_ingress_v1" "ingress" {
   spec {
     tls {
       hosts = [
-        format("build.%s", var.website),
+        format("api.staging.%s", var.website),
       ]
       secret_name = local.secret_name
     }
     rule {
-      host = format("build.%s", var.website)
+      host = format("api.staging.%s", var.website)
       http {
         path {
           backend {
             service {
-              name = "jenkins-service"
+              name = "gateway"
               port {
                 number = 8080
               }
