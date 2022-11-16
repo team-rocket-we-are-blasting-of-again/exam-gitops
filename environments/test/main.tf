@@ -16,3 +16,12 @@ resource "kubernetes_namespace" "test" {
     name = "test"
   }
 }
+
+resource "kubernetes_priority_class" "priority" {
+  value = 1
+  metadata {
+    name = "test"
+  }
+  global_default = false
+  description = "This priority class should be used for test environment only."
+}

@@ -58,6 +58,7 @@ resource "kubernetes_deployment" "kafka" {
             value = "yes"
           }
         }
+        priority_class_name = "staging"
       }
     }
   }
@@ -110,6 +111,7 @@ resource "kubernetes_deployment" "zookeeper" {
             value = "yes"
           }
         }
+        priority_class_name = "staging"
       }
     }
   }
