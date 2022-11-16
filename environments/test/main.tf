@@ -18,7 +18,7 @@ resource "kubernetes_namespace" "test" {
 }
 
 resource "kubernetes_priority_class" "priority" {
-  value = 2
+  value = 1
   metadata {
     name = "test"
   }
