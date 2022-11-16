@@ -26,6 +26,20 @@ module "staging" {
   website    = var.website
 }
 
+module "production" {
+  depends_on = [time_sleep.wait_for_helm]
+  source     = "./environments/production"
+  email      = var.email
+  website    = var.website
+}
+
+module "test" {
+  depends_on = [time_sleep.wait_for_helm]
+  source     = "./environments/test"
+  email      = var.email
+  website    = var.website
+}
+
 module "domain" {
   source = "./modules/domain"
   domain = var.website
