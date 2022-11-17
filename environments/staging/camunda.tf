@@ -44,7 +44,7 @@ resource "kubernetes_deployment" "camunda" {
           }
           env {
             name  = "DB_CONNECTION_STR"
-            value = format("jdbc:postgresql://camunda:5432/%s", var.camunda_postgres_db)
+            value = format("jdbc:postgresql://postgres-camunda-postgresql:5432/%s", var.camunda_postgres_db)
           }
           env {
             name  = "DB_USERNAME"
