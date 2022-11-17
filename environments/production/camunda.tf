@@ -2,7 +2,7 @@ resource "kubernetes_deployment" "camunda" {
   metadata {
     namespace = local.namespace
     name      = "camunda"
-    labels    = {
+    labels = {
       app = "camunda"
     }
   }

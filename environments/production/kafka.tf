@@ -2,7 +2,7 @@ resource "kubernetes_deployment" "kafka" {
   metadata {
     namespace = local.namespace
     name      = "kafka"
-    labels    = {
+    labels = {
       app = "kafka"
     }
   }
@@ -83,7 +83,7 @@ resource "kubernetes_deployment" "zookeeper" {
   metadata {
     namespace = local.namespace
     name      = "zookeeper"
-    labels    = {
+    labels = {
       app = "zookeeper"
     }
   }
@@ -132,4 +132,3 @@ resource "kubernetes_service" "zookeeper" {
     }
   }
 }
-

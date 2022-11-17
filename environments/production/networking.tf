@@ -40,8 +40,8 @@ resource "kubernetes_ingress_v1" "ingress" {
   depends_on             = [kubectl_manifest.certificate]
   wait_for_load_balancer = true
   metadata {
-    namespace   = local.namespace
-    name        = "ingress"
+    namespace = local.namespace
+    name      = "ingress"
     annotations = {
       "kubernetes.io/ingress.class"                    = "nginx"
       "cert-manager.io/cluster-issuer"                 = local.cluster_issuer_name
