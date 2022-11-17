@@ -23,5 +23,5 @@ resource "kubernetes_priority_class" "priority" {
     name = "test"
   }
   global_default = false
-  description = "This priority class should be used for test environment only."
+  description    = "This priority class should be used for test environment only."
 }
