@@ -29,6 +29,7 @@ spec:
   secretName: ${local.secret_name}
   dnsNames:
     - ${format("api.staging.%s", var.website)}
+    - ${format("camunda.staging.%s", var.website)}
   issuerRef:
     name: ${local.cluster_issuer_name}
     kind: ClusterIssuer
@@ -54,6 +55,7 @@ resource "kubernetes_ingress_v1" "ingress" {
     tls {
       hosts = [
         format("api.staging.%s", var.website),
+        format("camunda.staging.%s", var.website)
       ]
       secret_name = local.secret_name
     }
@@ -64,6 +66,23 @@ resource "kubernetes_ingress_v1" "ingress" {
           backend {
             service {
               name = "gateway"
+              port {
+                number = 8080
+              }
+            }
+          }
+          path_type = "Prefix"
+          path      = "/"
+        }
+      }
+    }
+    rule {
+      host = format("camunda.staging.%s", var.website)
+      http {
+        path {
+          backend {
+            service {
+              name = "camunda"
               port {
                 number = 8080
               }

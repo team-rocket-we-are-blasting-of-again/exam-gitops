@@ -20,10 +20,16 @@ module "devops" {
 }
 
 module "staging" {
-  depends_on = [time_sleep.wait_for_helm]
-  source     = "./environments/staging"
-  email      = var.email
-  website    = var.website
+  depends_on                     = [time_sleep.wait_for_helm]
+  source                         = "./environments/staging"
+  email                          = var.email
+  website                        = var.website
+  camunda_admin_password         = var.camunda_admin_password
+  camunda_admin_user             = var.camunda_admin_user
+  camunda_postgres_db            = var.camunda_postgres_db
+  camunda_postgres_root_password = var.camunda_postgres_root_password
+  camunda_postgres_user          = var.camunda_admin_user
+  camunda_postgres_user_password = var.camunda_postgres_user_password
 }
 
 module "production" {
@@ -41,8 +47,8 @@ module "test" {
 }
 
 module "domain" {
-  source = "./modules/domain"
-  domain = var.website
+  source     = "./modules/domain"
+  domain     = var.website
   subdomains = [
     "build",
     "api.staging",
