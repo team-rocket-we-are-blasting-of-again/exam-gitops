@@ -1,7 +1,8 @@
 resource "helm_release" "camunda_postgres" {
-  chart     = "bitnami/postgresql"
-  name      = "postgres-camunda"
-  namespace = local.namespace
+  chart      = "postgresql"
+  repository = "https://charts.bitnami.com/bitnami"
+  name       = "postgres-camunda"
+  namespace  = local.namespace
 
   set {
     name  = "primary.persistence.enabled"
