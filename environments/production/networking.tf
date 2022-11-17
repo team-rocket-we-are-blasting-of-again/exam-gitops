@@ -19,7 +19,7 @@ YAML
 
 resource "kubectl_manifest" "certificate" {
   depends_on = [kubectl_manifest.cluster_issuer]
-  yaml_body = <<YAML
+  yaml_body  = <<YAML
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
@@ -29,6 +29,7 @@ spec:
   secretName: ${local.secret_name}
   dnsNames:
     - ${format("api.%s", var.website)}
+    - ${format("camunda.%s", var.website)}
   issuerRef:
     name: ${local.cluster_issuer_name}
     kind: ClusterIssuer
@@ -36,11 +37,11 @@ YAML
 }
 
 resource "kubernetes_ingress_v1" "ingress" {
-  depends_on = [kubectl_manifest.certificate]
+  depends_on             = [kubectl_manifest.certificate]
   wait_for_load_balancer = true
   metadata {
-    namespace = local.namespace
-    name      = "ingress"
+    namespace   = local.namespace
+    name        = "ingress"
     annotations = {
       "kubernetes.io/ingress.class"                    = "nginx"
       "cert-manager.io/cluster-issuer"                 = local.cluster_issuer_name
@@ -54,6 +55,7 @@ resource "kubernetes_ingress_v1" "ingress" {
     tls {
       hosts = [
         format("api.%s", var.website),
+        format("camunda.%s", var.website)
       ]
       secret_name = local.secret_name
     }
@@ -64,6 +66,23 @@ resource "kubernetes_ingress_v1" "ingress" {
           backend {
             service {
               name = "gateway"
+              port {
+                number = 8080
+              }
+            }
+          }
+          path_type = "Prefix"
+          path      = "/"
+        }
+      }
+    }
+    rule {
+      host = format("camunda.%s", var.website)
+      http {
+        path {
+          backend {
+            service {
+              name = "camunda"
               port {
                 number = 8080
               }

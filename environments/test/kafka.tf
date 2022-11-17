@@ -19,6 +19,7 @@
 #        }
 #      }
 #      spec {
+#          priority_class_name = local.priority
 #        container {
 #          name  = "kafka"
 #          image = "bitnami/kafka:3.3.1"
@@ -58,7 +59,6 @@
 #            value = "yes"
 #          }
 #        }
-#        priority_class_name = "test"
 #      }
 #    }
 #  }
@@ -100,6 +100,7 @@
 #        }
 #      }
 #      spec {
+#          priority_class_name = local.priority
 #        container {
 #          name  = "zookeeper"
 #          image = "bitnami/zookeeper:3.8"
@@ -111,7 +112,6 @@
 #            value = "yes"
 #          }
 #        }
-#        priority_class_name = "test"
 #      }
 #    }
 #  }

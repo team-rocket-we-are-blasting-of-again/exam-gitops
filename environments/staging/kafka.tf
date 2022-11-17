@@ -1,8 +1,8 @@
 resource "kubernetes_deployment" "kafka" {
   metadata {
     namespace = local.namespace
-    name   = "kafka"
-    labels = {
+    name      = "kafka"
+    labels    = {
       app = "kafka"
     }
   }
@@ -19,6 +19,7 @@ resource "kubernetes_deployment" "kafka" {
         }
       }
       spec {
+        priority_class_name = local.priority
         container {
           name  = "kafka"
           image = "bitnami/kafka:3.3.1"
@@ -58,7 +59,6 @@ resource "kubernetes_deployment" "kafka" {
             value = "yes"
           }
         }
-        priority_class_name = "staging"
       }
     }
   }
@@ -66,14 +66,14 @@ resource "kubernetes_deployment" "kafka" {
 resource "kubernetes_service" "kafka" {
   metadata {
     namespace = local.namespace
-    name = "kafka"
+    name      = "kafka"
   }
   spec {
     selector = {
       app = "kafka"
     }
     port {
-      port = 9092
+      port        = 9092
       target_port = "9092"
     }
   }
@@ -82,8 +82,8 @@ resource "kubernetes_service" "kafka" {
 resource "kubernetes_deployment" "zookeeper" {
   metadata {
     namespace = local.namespace
-    name   = "zookeeper"
-    labels = {
+    name      = "zookeeper"
+    labels    = {
       app = "zookeeper"
     }
   }
@@ -100,6 +100,7 @@ resource "kubernetes_deployment" "zookeeper" {
         }
       }
       spec {
+        priority_class_name = local.priority
         container {
           name  = "zookeeper"
           image = "bitnami/zookeeper:3.8"
@@ -111,7 +112,6 @@ resource "kubernetes_deployment" "zookeeper" {
             value = "yes"
           }
         }
-        priority_class_name = "staging"
       }
     }
   }
@@ -119,7 +119,7 @@ resource "kubernetes_deployment" "zookeeper" {
 
 resource "kubernetes_service" "zookeeper" {
   metadata {
-    name = "zookeeper"
+    name      = "zookeeper"
     namespace = local.namespace
   }
   spec {
@@ -127,7 +127,7 @@ resource "kubernetes_service" "zookeeper" {
       app = "zookeeper"
     }
     port {
-      port = 2181
+      port        = 2181
       target_port = "2181"
     }
   }

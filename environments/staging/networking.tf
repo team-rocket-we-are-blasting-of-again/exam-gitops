@@ -7,7 +7,7 @@ metadata:
 spec:
   acme:
     email: ${var.email}
-    server: https://acme-v02.api.letsencrypt.org/directory
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
       name: letsencrypt-secret-prod
     solvers:
