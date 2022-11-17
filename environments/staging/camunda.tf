@@ -21,7 +21,7 @@ resource "kubernetes_deployment" "camunda" {
       spec {
         container {
           name  = "camunda"
-          image = "tobiaszimmer/exam-camunda-server:main-0.0.3"
+          image = "tobiaszimmer/exam-camunda-server:main-0.0.4"
           env {
             name  = "CAMUNDA_ADMIN_USERNAME"
             value = var.camunda_admin_user
