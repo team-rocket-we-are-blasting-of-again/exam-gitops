@@ -8,7 +8,7 @@ resource "digitalocean_kubernetes_cluster" "mtogo" {
     size       = "s-1vcpu-2gb"
     auto_scale = true
     min_nodes  = 1
-    max_nodes  = 3
+    max_nodes  = 2
   }
 }
 
