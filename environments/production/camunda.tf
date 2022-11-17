@@ -150,4 +150,8 @@ resource "helm_release" "camunda_postgres" {
     name  = "readReplicas.persistence.existingClaim"
     value = kubernetes_persistent_volume_claim.camunda_volume.metadata.0.name
   }
+  set {
+    name  = "auth.replicationPassword"
+    value = "test"
+  }
 }
