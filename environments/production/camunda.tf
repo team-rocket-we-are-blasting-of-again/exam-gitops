@@ -45,7 +45,7 @@ resource "kubernetes_deployment" "camunda" {
           }
           env {
             name  = "DB_CONNECTION_STR"
-            value = format("jdbc:postgresql://postgres-camunda-postgresql:5432/%s", var.camunda_postgres_db)
+            value = format("jdbc:postgresql://postgres-camunda-postgresql-primary:5432/%s", var.camunda_postgres_db)
           }
           env {
             name  = "DB_USERNAME"
@@ -145,5 +145,9 @@ resource "helm_release" "camunda_postgres" {
   set {
     name  = "readReplicas.persistence.size"
     value = "3Gi"
+  }
+  set {
+    name  = "readReplicas.persistence.existingClaim"
+    value = kubernetes_persistent_volume_claim.camunda_volume.metadata.0.name
   }
 }
