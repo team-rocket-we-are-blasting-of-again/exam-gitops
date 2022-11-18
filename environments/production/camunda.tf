@@ -2,7 +2,7 @@ resource "kubernetes_deployment" "camunda" {
   metadata {
     namespace = local.namespace
     name      = "camunda"
-    labels = {
+    labels    = {
       app = "camunda"
     }
   }
@@ -45,7 +45,7 @@ resource "kubernetes_deployment" "camunda" {
           }
           env {
             name  = "DB_CONNECTION_STR"
-            value = format("jdbc:postgresql://postgres-camunda-postgresql-primary:5432/%s", var.camunda_postgres_db)
+            value = format("jdbc:postgresql://postgres-camunda-postgresql:5432/%s", var.camunda_postgres_db)
           }
           env {
             name  = "DB_USERNAME"
@@ -124,7 +124,7 @@ resource "helm_release" "camunda_postgres" {
   }
   set {
     name  = "architecture"
-    value = "replication"
+    value = "standard"
   }
   set {
     name  = "primary.priorityClassName"
@@ -133,25 +133,5 @@ resource "helm_release" "camunda_postgres" {
   set {
     name  = "primary.persistence.size"
     value = "3Gi"
-  }
-  set {
-    name  = "readReplicas.replicaCount"
-    value = "2"
-  }
-  set {
-    name  = "readReplicas.priorityClassName"
-    value = local.priority
-  }
-  set {
-    name  = "readReplicas.persistence.size"
-    value = "3Gi"
-  }
-  set {
-    name  = "readReplicas.persistence.existingClaim"
-    value = kubernetes_persistent_volume_claim.camunda_volume.metadata.0.name
-  }
-  set {
-    name  = "auth.replicationPassword"
-    value = "test"
   }
 }

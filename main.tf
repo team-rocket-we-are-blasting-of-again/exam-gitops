@@ -33,18 +33,18 @@ module "staging" {
   camunda_postgres_user_password = var.camunda_postgres_user_password
 }
 
-# module "production" {
-#   depends_on                     = [time_sleep.wait_for_helm]
-#   source                         = "./environments/production"
-#   email                          = var.email
-#   website                        = var.website
-#   camunda_admin_password         = var.camunda_admin_password
-#   camunda_admin_user             = var.camunda_admin_user
-#   camunda_postgres_db            = var.camunda_postgres_db
-#   camunda_postgres_root_password = var.camunda_postgres_root_password
-#   camunda_postgres_user          = var.camunda_admin_user
-#   camunda_postgres_user_password = var.camunda_postgres_user_password
-# }
+ module "production" {
+   depends_on                     = [time_sleep.wait_for_helm]
+   source                         = "./environments/production"
+   email                          = var.email
+   website                        = var.website
+   camunda_admin_password         = var.camunda_admin_password
+   camunda_admin_user             = var.camunda_admin_user
+   camunda_postgres_db            = var.camunda_postgres_db
+   camunda_postgres_root_password = var.camunda_postgres_root_password
+   camunda_postgres_user          = var.camunda_admin_user
+   camunda_postgres_user_password = var.camunda_postgres_user_password
+ }
 
 module "test" {
   depends_on                     = [time_sleep.wait_for_helm]
