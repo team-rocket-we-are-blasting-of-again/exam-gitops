@@ -47,8 +47,8 @@ resource "kubernetes_ingress_v1" "ingress" {
       "cert-manager.io/cluster-issuer"                 = local.cluster_issuer_name
       "nginx.ingress.kubernetes.io/ssl-redirect"       = "true"
       "nginx.ingress.kubernetes.io/force-ssl-redirect" = "true"
-      "nginx.ingress.kubernetes.io/limit-connections"  = "2"  # Connections per ip (could maybe be increased)
-      "nginx.ingress.kubernetes.io/limit-rpm"          = "60" # Requests per minute
+      "nginx.ingress.kubernetes.io/limit-connections"  = "5"  # Connections per ip (could maybe be increased)
+      "nginx.ingress.kubernetes.io/limit-rpm"          = "500" # Requests per minute
     }
   }
   spec {
