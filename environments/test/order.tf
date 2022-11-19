@@ -33,7 +33,7 @@ resource "kubernetes_deployment" "order" {
           }
           env {
             name  = "SPRING_DATASOURCE_PASSWORD"
-            value = "1234"
+            value = "something1234"
           }
           env {
             name  = "CAMUNDA_BPM_CLIENT_BASE_URL"
@@ -100,7 +100,7 @@ resource "helm_release" "order_postgres" {
   }
   set {
     name  = "auth.password"
-    value = "1234"
+    value = "something1234"
   }
   set {
     name  = "auth.database"
