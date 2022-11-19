@@ -76,7 +76,7 @@ resource "kubernetes_service" "order" {
   }
 }
 
-resource "helm_release" "camunda_postgres" {
+resource "helm_release" "order_postgres" {
   chart      = "postgresql"
   repository = "https://charts.bitnami.com/bitnami"
   name       = "postgres-order"
