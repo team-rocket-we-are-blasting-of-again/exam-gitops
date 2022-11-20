@@ -71,6 +71,6 @@ module "domain" {
     "camunda.test",
     "camunda"
   ]
-  target_ip = module.staging.load_balancer_ip
+  target_ip = module.production.load_balancer_ip
   ttl_sec   = 300
 }
