@@ -28,7 +28,7 @@ metadata:
 spec:
   secretName: ${local.secret_name}
   dnsNames:
-    - ${format("build.%s", var.website)}
+    - ${format("monitor.%s", var.website)}
   issuerRef:
     name: ${local.cluster_issuer_name}
     kind: ClusterIssuer
@@ -46,26 +46,26 @@ resource "kubernetes_ingress_v1" "ingress" {
       "cert-manager.io/cluster-issuer"                 = local.cluster_issuer_name
       "nginx.ingress.kubernetes.io/ssl-redirect"       = "true"
       "nginx.ingress.kubernetes.io/force-ssl-redirect" = "true"
-      "nginx.ingress.kubernetes.io/limit-connections"  = "2"  # Connections per ip (could maybe be increased)
-      "nginx.ingress.kubernetes.io/limit-rpm"          = "60" # Requests per minute
+      "nginx.ingress.kubernetes.io/limit-connections"  = "10"  # Connections per ip (could maybe be increased)
+      "nginx.ingress.kubernetes.io/limit-rpm"          = "1000" # Requests per minute
     }
   }
   spec {
     tls {
       hosts = [
-        format("build.%s", var.website),
+        format("monitor.%s", var.website),
       ]
       secret_name = local.secret_name
     }
     rule {
-      host = format("build.%s", var.website)
+      host = format("monitor.%s", var.website)
       http {
         path {
           backend {
             service {
-              name = "jenkins-service"
+              name = "prom-grafana"
               port {
-                number = 8080
+                number = 80
               }
             }
           }
