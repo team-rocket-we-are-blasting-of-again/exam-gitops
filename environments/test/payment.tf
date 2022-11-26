@@ -3,7 +3,7 @@ resource "kubernetes_deployment" "payment" {
   metadata {
     namespace = local.namespace
     name      = "payment"
-    labels    = {
+    labels = {
       app = "payment"
     }
   }
@@ -36,14 +36,14 @@ resource "kubernetes_deployment" "payment" {
 resource "kubernetes_service" "payment" {
   metadata {
     namespace = local.namespace
-    name = "payment"
+    name      = "payment"
   }
   spec {
     selector = {
       app = "payment"
     }
     port {
-      port = 9081
+      port        = 9081
       target_port = "9081"
     }
   }

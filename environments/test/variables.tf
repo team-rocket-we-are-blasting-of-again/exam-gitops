@@ -29,3 +29,23 @@ variable "camunda_postgres_user_password" {
 variable "camunda_postgres_db" {
   type = string
 }
+
+variable "gateway_postgres_user" {
+  type = string
+}
+
+variable "gateway_postgres_user_password" {
+  type = string
+}
+
+variable "gateway_postgres_db" {
+  type = string
+}
+
+variable "gateway_username" {
+  type = string
+}
+
+variable "gateway_password" {
+  type = string
+}

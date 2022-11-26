@@ -5,7 +5,7 @@ resource "digitalocean_kubernetes_cluster" "mtogo" {
 
   node_pool {
     name       = "autoscale-worker-pool"
-    size       = "s-2vcpu-2gb"
+    size       = "s-1vcpu-2gb"
     node_count = 2
     #    auto_scale = true
     #    min_nodes  = 1
@@ -57,6 +57,11 @@ module "test" {
   camunda_postgres_root_password = var.camunda_postgres_root_password
   camunda_postgres_user          = var.camunda_admin_user
   camunda_postgres_user_password = var.camunda_postgres_user_password
+  gateway_postgres_db            = var.gateway_postgres_db
+  gateway_postgres_user          = var.gateway_postgres_user
+  gateway_postgres_user_password = var.gateway_postgres_user_password
+  gateway_username               = var.gateway_username
+  gateway_password               = var.gateway_password
 }
 
 module "domain" {

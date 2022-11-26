@@ -19,7 +19,7 @@ YAML
 
 resource "kubectl_manifest" "certificate" {
   depends_on = [kubectl_manifest.cluster_issuer]
-  yaml_body = <<YAML
+  yaml_body  = <<YAML
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
@@ -37,7 +37,7 @@ YAML
 }
 
 resource "kubernetes_ingress_v1" "ingress" {
-  depends_on = [kubectl_manifest.certificate]
+  depends_on             = [kubectl_manifest.certificate]
   wait_for_load_balancer = true
   metadata {
     namespace = local.namespace
@@ -47,7 +47,7 @@ resource "kubernetes_ingress_v1" "ingress" {
       "cert-manager.io/cluster-issuer"                 = local.cluster_issuer_name
       "nginx.ingress.kubernetes.io/ssl-redirect"       = "true"
       "nginx.ingress.kubernetes.io/force-ssl-redirect" = "true"
-      "nginx.ingress.kubernetes.io/limit-connections"  = "5"  # Connections per ip (could maybe be increased)
+      "nginx.ingress.kubernetes.io/limit-connections"  = "5"   # Connections per ip (could maybe be increased)
       "nginx.ingress.kubernetes.io/limit-rpm"          = "500" # Requests per minute
     }
   }

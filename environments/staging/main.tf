@@ -27,5 +27,5 @@ resource "kubernetes_priority_class" "priority" {
     name = "staging"
   }
   global_default = false
-  description = "This priority class should be used for staging environment only."
+  description    = "This priority class should be used for staging environment only."
 }

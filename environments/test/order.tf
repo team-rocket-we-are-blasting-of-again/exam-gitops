@@ -3,7 +3,7 @@ resource "kubernetes_deployment" "order" {
   metadata {
     namespace = local.namespace
     name      = "order"
-    labels    = {
+    labels = {
       app = "order"
     }
   }
@@ -63,14 +63,14 @@ resource "kubernetes_persistent_volume_claim" "order_volume" {
 resource "kubernetes_service" "order" {
   metadata {
     namespace = local.namespace
-    name = "order"
+    name      = "order"
   }
   spec {
     selector = {
       app = "order"
     }
     port {
-      port = 8081
+      port        = 8081
       target_port = "8081"
     }
   }

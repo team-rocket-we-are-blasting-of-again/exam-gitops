@@ -2,7 +2,7 @@ resource "kubernetes_deployment" "camunda" {
   metadata {
     namespace = local.namespace
     name      = "camunda"
-    labels    = {
+    labels = {
       app = "camunda"
     }
   }
@@ -19,6 +19,7 @@ resource "kubernetes_deployment" "camunda" {
         }
       }
       spec {
+        priority_class_name = local.priority
         container {
           name  = "camunda"
           image = "tobiaszimmer/exam-camunda-server:camundaPayRstrOrd-0.0.3"
@@ -78,14 +79,14 @@ resource "kubernetes_persistent_volume_claim" "camunda_volume" {
 resource "kubernetes_service" "camunda" {
   metadata {
     namespace = local.namespace
-    name = "camunda"
+    name      = "camunda"
   }
   spec {
     selector = {
       app = "camunda"
     }
     port {
-      port = 8080
+      port        = 8080
       target_port = "8080"
     }
   }
@@ -96,40 +97,40 @@ resource "helm_release" "camunda_postgres" {
   name       = "postgres-camunda"
   namespace  = local.namespace
 
-set {
-  name  = "primary.persistence.enabled"
-  value = "true"
-}
-set {
-  name  = "primary.persistence.existingClaim"
-  value = kubernetes_persistent_volume_claim.camunda_volume.metadata.0.name
-}
-set {
-  name  = "auth.enablePostgresUser"
-  value = "false"
-}
-set {
-  name  = "auth.username"
-  value = var.camunda_postgres_user
-}
-set {
-  name  = "auth.password"
-  value = var.camunda_postgres_user_password
-}
-set {
-  name  = "auth.database"
-  value = var.camunda_postgres_db
-}
-set {
-  name  = "architecture"
-  value = "standard"
-}
-set {
-  name  = "primary.priorityClassName"
-  value = local.priority
-}
-set {
-  name  = "primary.persistence.size"
-  value = "3Gi"
-}
+  set {
+    name  = "primary.persistence.enabled"
+    value = "true"
+  }
+  set {
+    name  = "primary.persistence.existingClaim"
+    value = kubernetes_persistent_volume_claim.camunda_volume.metadata.0.name
+  }
+  set {
+    name  = "auth.enablePostgresUser"
+    value = "false"
+  }
+  set {
+    name  = "auth.username"
+    value = var.camunda_postgres_user
+  }
+  set {
+    name  = "auth.password"
+    value = var.camunda_postgres_user_password
+  }
+  set {
+    name  = "auth.database"
+    value = var.camunda_postgres_db
+  }
+  set {
+    name  = "architecture"
+    value = "standard"
+  }
+  set {
+    name  = "primary.priorityClassName"
+    value = local.priority
+  }
+  set {
+    name  = "primary.persistence.size"
+    value = "3Gi"
+  }
 }

@@ -27,5 +27,5 @@ resource "kubernetes_priority_class" "priority" {
     name = "devops"
   }
   global_default = false
-  description = "This priority class should be used for DevOps environment only."
+  description    = "This priority class should be used for DevOps environment only."
 }
