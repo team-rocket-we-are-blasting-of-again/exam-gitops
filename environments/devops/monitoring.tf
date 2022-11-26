@@ -4,7 +4,7 @@ resource "helm_release" "kube-prometheus-stack" {
   name  = "kube-prometheus-stack"
   namespace = local.namespace
   values = [
-    file("config/kube-prometheus-stack-values.yaml")
+    file("${path.module}/config/kube-prometheus-stack-values.yaml")
   ]
 }
 
@@ -14,7 +14,7 @@ resource "helm_release" "promtail" {
   name  = "promtail"
   namespace = local.namespace
   values = [
-    file("config/promtail-values.yaml")
+    file("${path.module}/config/promtail-values.yaml")
   ]
 }
 
