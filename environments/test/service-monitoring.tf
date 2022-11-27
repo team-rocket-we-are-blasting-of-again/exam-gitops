@@ -57,6 +57,21 @@ resource "kubernetes_service" "prometheus" {
   }
 }
 
+resource "kubernetes_persistent_volume_claim" "grafana_volume" {
+  metadata {
+    name      = "postgresql-grafana-claim"
+    namespace = local.namespace
+  }
+  spec {
+    access_modes = ["ReadWriteOnce"]
+    resources {
+      requests = {
+        storage = "2Gi"
+      }
+    }
+  }
+}
+
 resource "kubernetes_deployment" "grafana" {
   metadata {
     namespace = local.namespace
@@ -82,6 +97,10 @@ resource "kubernetes_deployment" "grafana" {
         container {
           name  = "grafana"
           image = "tobiaszimmer/exam-service-monitoring:grafana-13-14-2022-11-27"
+          volume_mount {
+            name       = "data"
+            mount_path = "/var/lib/grafana"
+          }
           env {
             name = "GF_SECURITY_ADMIN_USER"
             value = "admin"
@@ -89,6 +108,12 @@ resource "kubernetes_deployment" "grafana" {
           env {
             name  = "GF_SECURITY_ADMIN_PASSWORD"
             value = "admin"
+          }
+        }
+        volume {
+          name = "data"
+          persistent_volume_claim {
+            claim_name = kubernetes_persistent_volume_claim.grafana_volume.metadata.0.name
           }
         }
       }
