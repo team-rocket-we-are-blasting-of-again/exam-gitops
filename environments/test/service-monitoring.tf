@@ -94,6 +94,9 @@ resource "kubernetes_deployment" "grafana" {
       }
       spec {
         priority_class_name = local.priority
+        security_context {
+          fs_group = "104"
+        }
         container {
           name  = "grafana"
           image = "tobiaszimmer/exam-service-monitoring:grafana-13-14-2022-11-27"
