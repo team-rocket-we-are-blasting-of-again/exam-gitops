@@ -44,7 +44,7 @@ resource "kubernetes_deployment" "gateway" {
             value = var.gateway_postgres_user
           }
           env {
-            name  = "GATEWAY_DB_PASSWORD"
+            name  = "GATEWAY_DB_POSTGRES"
             value = var.gateway_postgres_user_password
           }
           env {
