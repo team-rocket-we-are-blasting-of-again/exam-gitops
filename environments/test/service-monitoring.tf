@@ -90,6 +90,14 @@ resource "kubernetes_deployment" "grafana" {
             name  = "GF_SECURITY_ADMIN_PASSWORD"
             value = "admin"
           }
+          env {
+            name  = "GATEWAY_USERNAME"
+            value = var.gateway_username
+          }
+          env {
+            name  = "GATEWAY_PASSWORD"
+            value = var.gateway_password
+          }
         }
       }
     }
