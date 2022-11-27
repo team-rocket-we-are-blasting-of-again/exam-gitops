@@ -1,3 +1,18 @@
+resource "kubernetes_persistent_volume_claim" "prometheus_volume" {
+  metadata {
+    name      = "postgresql-prometheus-claim"
+    namespace = local.namespace
+  }
+  spec {
+    access_modes = ["ReadWriteOnce"]
+    resources {
+      requests = {
+        storage = "2Gi"
+      }
+    }
+  }
+}
+
 resource "kubernetes_deployment" "prometheus" {
   metadata {
     namespace = local.namespace
@@ -23,6 +38,10 @@ resource "kubernetes_deployment" "prometheus" {
         container {
           name  = "prometheus"
           image = "tobiaszimmer/exam-service-monitoring:prometheus-10-58-2022-11-27"
+          volume_mount {
+            name       = "data"
+            mount_path = "/prometheus"
+          }
           env {
             name = "PROMETHEUS_HOSTS"
             value = "gateway:8080"
@@ -34,6 +53,11 @@ resource "kubernetes_deployment" "prometheus" {
           env {
             name  = "PASSWORD"
             value = var.gateway_password
+          }
+        }
+        volume {
+          persistent_volume_claim {
+            claim_name = kubernetes_persistent_volume_claim.prometheus_volume.metadata.0.name
           }
         }
       }
