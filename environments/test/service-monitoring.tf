@@ -56,6 +56,7 @@ resource "kubernetes_deployment" "prometheus" {
           }
         }
         volume {
+          name = "data"
           persistent_volume_claim {
             claim_name = kubernetes_persistent_volume_claim.prometheus_volume.metadata.0.name
           }
