@@ -35,6 +35,9 @@ resource "kubernetes_deployment" "prometheus" {
       }
       spec {
         priority_class_name = local.priority
+        security_context {
+          fs_group = "104"
+        }
         container {
           name  = "prometheus"
           image = "tobiaszimmer/exam-service-monitoring:prometheus-10-58-2022-11-27"
