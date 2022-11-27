@@ -81,7 +81,7 @@ resource "kubernetes_deployment" "grafana" {
         priority_class_name = local.priority
         container {
           name  = "grafana"
-          image = "tobiaszimmer/exam-service-monitoring:prometheus-10-58-2022-11-27"
+          image = "tobiaszimmer/exam-service-monitoring:grafana-10-57-2022-11-27"
           env {
             name = "GF_SECURITY_ADMIN_USER"
             value = "admin"
