@@ -28,7 +28,6 @@ resource "kubectl_manifest" "certificate" {
  spec:
    secretName: ${local.secret_name}
    dnsNames:
-     - ${format("camunda.test.%s", var.website)}
      - ${format("api.test.%s", var.website)}
    issuerRef:
      name: ${local.cluster_issuer_name}
@@ -54,7 +53,7 @@ resource "kubernetes_ingress_v1" "ingress" {
   spec {
     tls {
       hosts = [
-        format("camunda.test.%s", var.website),
+#        format("camunda.test.%s", var.website),
         format("api.test.%s", var.website)
       ]
       secret_name = local.secret_name
@@ -76,22 +75,22 @@ resource "kubernetes_ingress_v1" "ingress" {
         }
       }
     }
-    rule {
-      host = format("camunda.test.%s", var.website)
-      http {
-        path {
-          backend {
-            service {
-              name = "camunda"
-              port {
-                number = 8080
-              }
-            }
-          }
-          path_type = "Prefix"
-          path      = "/"
-        }
-      }
-    }
+#    rule {
+#      host = format("camunda.test.%s", var.website)
+#      http {
+#        path {
+#          backend {
+#            service {
+#              name = "camunda"
+#              port {
+#                number = 8080
+#              }
+#            }
+#          }
+#          path_type = "Prefix"
+#          path      = "/"
+#        }
+#      }
+#    }
   }
 }
