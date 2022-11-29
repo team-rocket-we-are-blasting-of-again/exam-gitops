@@ -23,5 +23,9 @@ resource "helm_release" "loki" {
   chart = "loki-distributed"
   name  = "loki"
   namespace = local.namespace
+  set {
+    name  = "gateway.service.port"
+    value = "3101"
+  }
 }
 
