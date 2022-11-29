@@ -40,13 +40,13 @@ resource "kubernetes_deployment" "prometheus" {
         }
         container {
           name  = "prometheus"
-          image = "tobiaszimmer/exam-service-monitoring:prometheus-10-58-2022-11-27"
+          image = "tobiaszimmer/exam-service-monitoring:prometheus-18-34-2022-11-29"
           volume_mount {
             name       = "data"
             mount_path = "/prometheus"
           }
           env {
-            name = "PROMETHEUS_HOSTS"
+            name  = "PROMETHEUS_HOSTS"
             value = "gateway:8080"
           }
           env {
@@ -127,13 +127,13 @@ resource "kubernetes_deployment" "grafana" {
         }
         container {
           name  = "grafana"
-          image = "tobiaszimmer/exam-service-monitoring:grafana-13-14-2022-11-27"
+          image = "tobiaszimmer/exam-service-monitoring:grafana-18-34-2022-11-29"
           volume_mount {
             name       = "data"
             mount_path = "/var/lib/grafana"
           }
           env {
-            name = "GF_SECURITY_ADMIN_USER"
+            name  = "GF_SECURITY_ADMIN_USER"
             value = "admin"
           }
           env {

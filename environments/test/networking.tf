@@ -54,7 +54,7 @@ resource "kubernetes_ingress_v1" "ingress" {
   spec {
     tls {
       hosts = [
-#        format("camunda.test.%s", var.website),
+        #        format("camunda.test.%s", var.website),
         format("api.test.%s", var.website),
         format("monitor-services.test.%s", var.website)
       ]
@@ -94,22 +94,22 @@ resource "kubernetes_ingress_v1" "ingress" {
         }
       }
     }
-#    rule {
-#      host = format("camunda.test.%s", var.website)
-#      http {
-#        path {
-#          backend {
-#            service {
-#              name = "camunda"
-#              port {
-#                number = 8080
-#              }
-#            }
-#          }
-#          path_type = "Prefix"
-#          path      = "/"
-#        }
-#      }
-#    }
+    #    rule {
+    #      host = format("camunda.test.%s", var.website)
+    #      http {
+    #        path {
+    #          backend {
+    #            service {
+    #              name = "camunda"
+    #              port {
+    #                number = 8080
+    #              }
+    #            }
+    #          }
+    #          path_type = "Prefix"
+    #          path      = "/"
+    #        }
+    #      }
+    #    }
   }
 }

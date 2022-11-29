@@ -13,12 +13,12 @@ resource "digitalocean_kubernetes_cluster" "mtogo" {
   }
 }
 
- module "devops" {
-   depends_on = [time_sleep.wait_for_helm]
-   source     = "./environments/devops"
-   email      = var.email
-   website    = var.website
- }
+module "devops" {
+  depends_on = [time_sleep.wait_for_helm]
+  source     = "./environments/devops"
+  email      = var.email
+  website    = var.website
+}
 
 # module "staging" {
 #   depends_on                     = [time_sleep.wait_for_helm]
