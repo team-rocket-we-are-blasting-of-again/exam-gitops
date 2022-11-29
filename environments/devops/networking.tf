@@ -28,7 +28,7 @@ metadata:
 spec:
   secretName: ${local.secret_name}
   dnsNames:
-    - ${format("logs.%s", var.website)}
+    - ${format("monitor.%s", var.website)}
   issuerRef:
     name: ${local.cluster_issuer_name}
     kind: ClusterIssuer
@@ -53,19 +53,19 @@ resource "kubernetes_ingress_v1" "ingress" {
   spec {
     tls {
       hosts = [
-        format("logs.%s", var.website),
+        format("monitor.%s", var.website),
       ]
       secret_name = local.secret_name
     }
     rule {
-      host = format("logs.%s", var.website)
+      host = format("monitor.%s", var.website)
       http {
         path {
           backend {
             service {
-              name = "loki-stack-grafana"
+              name = "grafana"
               port {
-                number = 80
+                number = 3000
               }
             }
           }

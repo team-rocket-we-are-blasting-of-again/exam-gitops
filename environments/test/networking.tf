@@ -29,7 +29,6 @@ resource "kubectl_manifest" "certificate" {
    secretName: ${local.secret_name}
    dnsNames:
      - ${format("api.test.%s", var.website)}
-     - ${format("monitor-services.test.%s", var.website)}
    issuerRef:
      name: ${local.cluster_issuer_name}
      kind: ClusterIssuer
@@ -56,7 +55,6 @@ resource "kubernetes_ingress_v1" "ingress" {
       hosts = [
         #        format("camunda.test.%s", var.website),
         format("api.test.%s", var.website),
-        format("monitor-services.test.%s", var.website)
       ]
       secret_name = local.secret_name
     }
@@ -69,23 +67,6 @@ resource "kubernetes_ingress_v1" "ingress" {
               name = "gateway"
               port {
                 number = 8080
-              }
-            }
-          }
-          path_type = "Prefix"
-          path      = "/"
-        }
-      }
-    }
-    rule {
-      host = format("monitor-services.test.%s", var.website)
-      http {
-        path {
-          backend {
-            service {
-              name = "grafana"
-              port {
-                number = 3000
               }
             }
           }

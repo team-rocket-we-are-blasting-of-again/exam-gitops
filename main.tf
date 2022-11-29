@@ -18,6 +18,10 @@ module "devops" {
   source     = "./environments/devops"
   email      = var.email
   website    = var.website
+  gateway_username = var.gateway_username
+  gateway_password = var.gateway_password
+  grafana_username = var.grafana_username
+  grafana_password = var.grafana_password
 }
 
 # module "staging" {
@@ -68,16 +72,13 @@ module "domain" {
   source = "./modules/domain"
   domain = var.website
   subdomains = [
-    "logs",
     "api.staging",
     "api.test",
     "api",
     "camunda.staging",
     "camunda.test",
     "camunda",
-    "monitor-services.staging",
-    "monitor-services.test",
-    "monitor-services"
+    "monitor",
   ]
   target_ip = module.test.load_balancer_ip
   ttl_sec   = 300
