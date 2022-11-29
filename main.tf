@@ -74,7 +74,10 @@ module "domain" {
     "api",
     "camunda.staging",
     "camunda.test",
-    "camunda"
+    "camunda",
+    "monitor-services.staging",
+    "monitor-services.test",
+    "monitor-services"
   ]
   target_ip = module.test.load_balancer_ip
   ttl_sec   = 300
