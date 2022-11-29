@@ -40,7 +40,7 @@ resource "kubernetes_deployment" "prometheus" {
         }
         container {
           name  = "prometheus"
-          image = "tobiaszimmer/exam-service-monitoring:prometheus-18-34-2022-11-29"
+          image = "tobiaszimmer/exam-service-monitoring:prometheus-19-34-2022-11-29"
           volume_mount {
             name       = "data"
             mount_path = "/prometheus"
@@ -127,7 +127,7 @@ resource "kubernetes_deployment" "grafana" {
         }
         container {
           name  = "grafana"
-          image = "tobiaszimmer/exam-service-monitoring:grafana-18-34-2022-11-29"
+          image = "tobiaszimmer/exam-service-monitoring:grafana-19-34-2022-11-29"
           volume_mount {
             name       = "data"
             mount_path = "/var/lib/grafana"
