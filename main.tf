@@ -68,7 +68,7 @@ module "domain" {
   source = "./modules/domain"
   domain = var.website
   subdomains = [
-    "monitor",
+    "logs",
     "api.staging",
     "api.test",
     "api",
