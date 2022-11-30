@@ -5,7 +5,7 @@ resource "digitalocean_kubernetes_cluster" "mtogo" {
 
   node_pool {
     name       = "autoscale-worker-pool"
-    size       = "s-1vcpu-2gb"
+    size       = "s-2vcpu-2gb"
     node_count = 2
     #    auto_scale = true
     #    min_nodes  = 1
@@ -14,10 +14,10 @@ resource "digitalocean_kubernetes_cluster" "mtogo" {
 }
 
 module "devops" {
-  depends_on = [time_sleep.wait_for_helm]
-  source     = "./environments/devops"
-  email      = var.email
-  website    = var.website
+  depends_on       = [time_sleep.wait_for_helm]
+  source           = "./environments/devops"
+  email            = var.email
+  website          = var.website
   gateway_username = var.gateway_username
   gateway_password = var.gateway_password
   grafana_username = var.grafana_username
