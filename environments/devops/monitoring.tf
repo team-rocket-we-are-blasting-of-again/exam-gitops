@@ -57,7 +57,7 @@ resource "kubernetes_deployment" "prometheus" {
           }
           env {
             name  = "PROMETHEUS_HOSTS"
-            value = "gateway:8080,customer-service:8012"
+            value = "gateway:8080,customer-service:8012,restaurant-service:9080,payment-service:9081"
           }
           env {
             name  = "USERNAME"
