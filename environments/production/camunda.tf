@@ -22,7 +22,7 @@ resource "kubernetes_deployment" "camunda" {
         priority_class_name = local.priority
         container {
           name  = "camunda"
-          image = "tobiaszimmer/exam-camunda-server:main-0.0.3"
+          image = "tobiaszimmer/exam-camunda-server:main-1.0.0-release"
           env {
             name  = "CAMUNDA_ADMIN_USERNAME"
             value = var.camunda_admin_user

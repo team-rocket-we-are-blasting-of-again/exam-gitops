@@ -62,3 +62,63 @@ variable "grafana_username" {
 variable "grafana_password" {
   type = string
 }
+
+variable "order_postgres_user" {
+  type = string
+}
+
+variable "order_postgres_user_password" {
+  type = string
+}
+
+variable "order_postgres_db" {
+  type = string
+}
+
+variable "auth_postgres_user" {
+  type = string
+}
+
+variable "auth_postgres_user_password" {
+  type = string
+}
+
+variable "auth_postgres_db" {
+  type = string
+}
+
+variable "restaurant_postgres_user" {
+  type = string
+}
+
+variable "restaurant_postgres_user_password" {
+  type = string
+}
+
+variable "restaurant_postgres_db" {
+  type = string
+}
+
+variable "courier_postgres_user" {
+  type = string
+}
+
+variable "courier_postgres_user_password" {
+  type = string
+}
+
+variable "courier_postgres_db" {
+  type = string
+}
+
+variable "customer_postgres_user" {
+  type = string
+}
+
+variable "customer_postgres_user_password" {
+  type = string
+}
+
+variable "customer_postgres_db" {
+  type = string
+}
