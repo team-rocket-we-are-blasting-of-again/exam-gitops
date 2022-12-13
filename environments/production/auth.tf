@@ -26,7 +26,7 @@ resource "kubernetes_deployment" "auth" {
           image = "tobiaszimmer/exam_auth_service:main-0.1.0"
           env {
             name  = "POSTGRES_HOST"
-            value = "postgres-gateway-postgresql"
+            value = "postgres-auth-postgresql"
           }
           env {
             name  = "POSTGRES_USER"
