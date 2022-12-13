@@ -1,7 +1,7 @@
 resource "digitalocean_kubernetes_cluster" "mtogo" {
   name    = "mtogo"
   region  = "fra1"
-  version = "1.24.4-do.0"
+  version = "1.25.4-do.0"
 
   node_pool {
     name       = "autoscale-worker-pool"
