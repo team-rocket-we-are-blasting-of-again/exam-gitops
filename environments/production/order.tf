@@ -112,50 +112,6 @@ resource "helm_release" "order_postgres" {
   }
   set {
     name  = "auth.username"
-    value = "orders"
-  }
-  set {
-    name  = "auth.password"
-    value = "something1234"
-  }
-  set {
-    name  = "auth.database"
-    value = "orders"
-  }
-  set {
-    name  = "architecture"
-    value = "standard"
-  }
-  set {
-    name  = "primary.priorityClassName"
-    value = local.priority
-  }
-  set {
-    name  = "primary.persistence.size"
-    value = "3Gi"
-  }
-}
-
-resource "helm_release" "order_postgres" {
-  chart      = "postgresql"
-  repository = "https://charts.bitnami.com/bitnami"
-  name       = "postgres-order"
-  namespace  = local.namespace
-
-  set {
-    name  = "primary.persistence.enabled"
-    value = "true"
-  }
-  set {
-    name  = "primary.persistence.existingClaim"
-    value = kubernetes_persistent_volume_claim.order_volume.metadata.0.name
-  }
-  set {
-    name  = "auth.enablePostgresUser"
-    value = "false"
-  }
-  set {
-    name  = "auth.username"
     value = var.order_postgres_user
   }
   set {
