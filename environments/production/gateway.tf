@@ -1,4 +1,5 @@
 resource "kubernetes_deployment" "gateway" {
+  depends_on = [kubernetes_deployment.kafka]
   metadata {
     namespace = local.namespace
     name      = "gateway"
@@ -65,7 +66,7 @@ resource "kubernetes_deployment" "gateway" {
           }
           env {
             name  = "GATEWAY_AUTH_GRPC_URL"
-            value = "static://auth:11000"
+            value = "static://auth:50051"
           }
         }
       }

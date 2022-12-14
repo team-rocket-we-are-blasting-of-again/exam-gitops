@@ -1,22 +1,22 @@
 resource "kubernetes_deployment" "order" {
-  depends_on = [kubernetes_deployment.gateway, kubernetes_deployment.camunda]
+  depends_on = [kubernetes_deployment.gateway, kubernetes_deployment.camunda, kubernetes_deployment.kafka]
   metadata {
     namespace = local.namespace
-    name      = "order-service"
+    name      = "order"
     labels = {
-      app = "order-service"
+      app = "order"
     }
   }
   spec {
     selector {
       match_labels = {
-        app = "order-service"
+        app = "order"
       }
     }
     template {
       metadata {
         labels = {
-          app = "order-service"
+          app = "order"
         }
       }
       spec {
@@ -79,11 +79,11 @@ resource "kubernetes_persistent_volume_claim" "order_volume" {
 resource "kubernetes_service" "order" {
   metadata {
     namespace = local.namespace
-    name      = "order-service"
+    name      = "order"
   }
   spec {
     selector = {
-      app = "order-service"
+      app = "order"
     }
     port {
       port        = 8081

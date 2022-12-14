@@ -1,5 +1,5 @@
 resource "kubernetes_deployment" "courier" {
-  depends_on = [kubernetes_deployment.gateway, kubernetes_deployment.camunda]
+  depends_on = [kubernetes_deployment.gateway, kubernetes_deployment.camunda, kubernetes_deployment.kafka]
   metadata {
     namespace = local.namespace
     name      = "courier"

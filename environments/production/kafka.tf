@@ -1,4 +1,5 @@
 resource "kubernetes_deployment" "kafka" {
+  depends_on = [kubernetes_deployment.zookeeper]
   metadata {
     namespace = local.namespace
     name      = "kafka"

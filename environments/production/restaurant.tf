@@ -1,6 +1,6 @@
 # TODO: depends on auth
 resource "kubernetes_deployment" "restaurant" {
-  depends_on = [kubernetes_deployment.gateway, kubernetes_deployment.camunda]
+  depends_on = [kubernetes_deployment.gateway, kubernetes_deployment.camunda, kubernetes_deployment.kafka]
   metadata {
     namespace = local.namespace
     name      = "restaurant"
