@@ -23,7 +23,7 @@ resource "kubernetes_deployment" "courier" {
         priority_class_name = local.priority
         container {
           name  = "courier"
-          image = "tobiaszimmer/exam-courier-service:main-1.0.0-release"
+          image = "tobiaszimmer/exam-courier-service:main-1.0.0-RELEASE"
           env {
             name = "COURIER_SERVICE_DDL_MODE"
             value = "create"
