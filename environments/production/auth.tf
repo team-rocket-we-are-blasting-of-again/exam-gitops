@@ -37,8 +37,8 @@ resource "kubernetes_deployment" "auth" {
             value = var.auth_postgres_db
           }
           env {
-            name  = "POSTGRES_USER"
-            value = var.auth_postgres_user
+            name  = "POSTGRES_PASSWORD"
+            value = var.auth_postgres_user_password
           }
           env {
             name  = "POSTGRES_PORT"
