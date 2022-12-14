@@ -23,7 +23,7 @@ resource "kubernetes_deployment" "customer" {
         priority_class_name = local.priority
         container {
           name  = "customer"
-          image = "tobiaszimmer/exam-customer-service:main-1.0.1-RELEASE"
+          image = "tobiaszimmer/exam-customer-service:main-1.0.2-RELEASE"
           env {
             name = "SPRING_DATASOURCE_URL"
             value = format("jdbc:postgresql://postgres-customer-postgresql:5432/%s", var.customer_postgres_db)
@@ -41,7 +41,7 @@ resource "kubernetes_deployment" "customer" {
             value = "http://camunda:8080/engine-rest/"
           }
           env {
-            name = "SPRING_KAFKA_BOOTSTRAP_SERVERS"
+            name = "KAFKA_BOOTSTRAP_SERVERS"
             value = "kafka:9092"
           }
           env {
