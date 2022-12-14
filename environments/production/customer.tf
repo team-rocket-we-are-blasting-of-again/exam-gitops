@@ -23,7 +23,7 @@ resource "kubernetes_deployment" "customer" {
         priority_class_name = local.priority
         container {
           name  = "customer"
-          image = "tobiaszimmer/exam-customer-service:main-0.0.1-snapshot"
+          image = "tobiaszimmer/exam-customer-service:main-1.0.0-RELEASE"
           env {
             name = "SPRING_DATASOURCE_URL"
             value = format("jdbc:postgresql://postgres-customer-postgresql:5432/%s", var.customer_postgres_db)
