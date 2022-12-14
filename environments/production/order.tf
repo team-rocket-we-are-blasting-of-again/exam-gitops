@@ -25,15 +25,15 @@ resource "kubernetes_deployment" "order" {
           image = "tobiaszimmer/exam-order-service:master-1.0.0-release"
           env {
             name  = "SPRING_DATASOURCE_URL"
-            value = "jdbc:postgresql://postgres-order-postgresql:5432/orders"
+            value = format("jdbc:postgresql://postgres-order-postgresql:5432/%s", var.order_postgres_db)
           }
           env {
             name  = "SPRING_DATASOURCE_USERNAME"
-            value = "orders"
+            value = var.order_postgres_user
           }
           env {
             name  = "SPRING_DATASOURCE_PASSWORD"
-            value = "something1234"
+            value = var.order_postgres_user_password
           }
           env {
             name  = "CASE_MANAGEMENT_CAMUNDA_BASE_URL"
