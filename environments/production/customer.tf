@@ -79,7 +79,7 @@ resource "kubernetes_persistent_volume_claim" "customer_volume" {
     access_modes = ["ReadWriteOnce"]
     resources {
       requests = {
-        storage = "3Gi"
+        storage = "1Gi"
       }
     }
   }
@@ -147,6 +147,6 @@ resource "helm_release" "customer_postgres" {
   }
   set {
     name  = "primary.persistence.size"
-    value = "3Gi"
+    value = "1Gi"
   }
 }

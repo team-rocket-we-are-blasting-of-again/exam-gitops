@@ -2,7 +2,7 @@ loki:
   enabled: true
   persistence:
     enabled: true
-    size: 3Gi
+    size: 1Gi
   isDefault: true
   url: http://{{(include "loki.serviceName" .)}}:{{ .Values.loki.service.port }}
   readinessProbe:

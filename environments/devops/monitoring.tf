@@ -17,7 +17,7 @@ resource "kubernetes_persistent_volume_claim" "prometheus_volume" {
     access_modes = ["ReadWriteOnce"]
     resources {
       requests = {
-        storage = "2Gi"
+        storage = "1Gi"
       }
     }
   }
@@ -104,7 +104,7 @@ resource "kubernetes_persistent_volume_claim" "grafana_volume" {
     access_modes = ["ReadWriteOnce"]
     resources {
       requests = {
-        storage = "2Gi"
+        storage = "1Gi"
       }
     }
   }
