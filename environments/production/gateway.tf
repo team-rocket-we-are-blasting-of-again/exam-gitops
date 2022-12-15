@@ -1,5 +1,5 @@
 resource "kubernetes_deployment" "gateway" {
-  depends_on = [kubernetes_deployment.kafka]
+  depends_on = [kubernetes_deployment.kafka, helm_release.gateway_postgres]
   metadata {
     namespace = local.namespace
     name      = "gateway"
@@ -26,7 +26,7 @@ resource "kubernetes_deployment" "gateway" {
           image = "tobiaszimmer/exam-api-gateway:main-1.0.0-release"
           env {
             name  = "GATEWAY_SERVER_PORT"
-            value = "8080"
+            value = 8080
           }
           env {
             name  = "GATEWAY_USERNAME"

@@ -29,3 +29,11 @@ resource "kubernetes_priority_class" "priority" {
   global_default = false
   description    = "This priority class should be used for production environment only."
 }
+
+# Utility to make sure that the gateway is started
+resource "time_sleep" "wait_for_gateway" {
+  depends_on = [
+    kubernetes_deployment.gateway
+  ]
+  create_duration = "10s"
+}

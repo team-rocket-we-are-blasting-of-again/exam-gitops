@@ -1,5 +1,5 @@
 resource "kubernetes_deployment" "auth" {
-  depends_on = [kubernetes_deployment.gateway]
+  depends_on = [time_sleep.wait_for_gateway]
   metadata {
     namespace = local.namespace
     name      = "auth"

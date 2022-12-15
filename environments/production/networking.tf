@@ -55,7 +55,7 @@ resource "kubernetes_ingress_v1" "ingress" {
     tls {
       hosts = [
         format("api.%s", var.website),
-        format("camunda.%s", var.website)
+        format("camunda.%s", var.website),
       ]
       secret_name = local.secret_name
     }

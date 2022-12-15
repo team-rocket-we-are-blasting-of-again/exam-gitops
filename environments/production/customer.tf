@@ -1,5 +1,5 @@
 resource "kubernetes_deployment" "customer" {
-  depends_on = [kubernetes_deployment.gateway, kubernetes_deployment.camunda, kubernetes_deployment.kafka]
+  depends_on = [time_sleep.wait_for_gateway, kubernetes_deployment.camunda, kubernetes_deployment.kafka]
   metadata {
     namespace = local.namespace
     name      = "customer"
