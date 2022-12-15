@@ -14,7 +14,7 @@ resource "digitalocean_kubernetes_cluster" "mtogo" {
 }
 
 module "devops" {
-  depends_on       = [time_sleep.wait_for_helm]
+  depends_on       = [time_sleep.wait_for_helm, module.production]
   source           = "./environments/devops"
   email            = var.email
   website          = var.website

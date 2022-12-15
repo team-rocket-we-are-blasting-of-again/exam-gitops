@@ -23,7 +23,7 @@ resource "kubernetes_deployment" "auth" {
         priority_class_name = local.priority
         container {
           name  = "auth"
-          image = "tobiaszimmer/exam_auth_service:main-0.1.0"
+          image = "tobiaszimmer/exam_auth_service:main-0.1.1"
           env {
             name  = "POSTGRES_HOST"
             value = "postgres-auth-postgresql"
