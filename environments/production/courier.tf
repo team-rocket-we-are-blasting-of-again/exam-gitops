@@ -25,6 +25,10 @@ resource "kubernetes_deployment" "courier" {
           name  = "courier"
           image = "tobiaszimmer/exam-courier-service:main-1.0.0-RELEASE"
           env {
+            name = "COURIER_SERVICE_PORT"
+            value = "8080"
+          }
+          env {
             name = "COURIER_SERVICE_DDL_MODE"
             value = "create"
           }
@@ -103,8 +107,8 @@ resource "kubernetes_service" "courier" {
       app = "courier"
     }
     port {
-      port        = 9088
-      target_port = "9088"
+      port        = 8080
+      target_port = "8080"
     }
   }
 }

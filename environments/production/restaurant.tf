@@ -58,6 +58,10 @@ resource "kubernetes_deployment" "restaurant" {
             value = "9791"
           }
           env {
+            name = "RESTAURANT_SERVICE_PORT"
+            value = "8080"
+          }
+          env {
             name  = "GATEWAY_USERNAME"
             value = var.gateway_username
           }
