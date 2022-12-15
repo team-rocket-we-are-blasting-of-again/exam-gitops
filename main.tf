@@ -6,7 +6,7 @@ resource "digitalocean_kubernetes_cluster" "mtogo" {
   node_pool {
     name       = "autoscale-worker-pool"
     size       = "s-2vcpu-2gb"
-    node_count = 4
+    node_count = 5
     #    auto_scale = true
     #    min_nodes  = 1
     #    max_nodes  = 3
