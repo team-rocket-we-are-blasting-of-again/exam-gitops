@@ -1,6 +1,6 @@
 # TODO: depends on auth
 resource "kubernetes_deployment" "legacy" {
-  depends_on = [time_sleep.wait_for_gateway, kubernetes_deployment.kafka, kubernetes_deployment.legacy_postgres, kubernetes_deployment.legacy_redis, kubernetes_deployment.kafka_connect]
+  depends_on = [time_sleep.wait_for_gateway, kubernetes_deployment.kafka, kubernetes_deployment.legacy-postgres, kubernetes_deployment.legacy-redis, kubernetes_deployment.kafka_connect]
   metadata {
     namespace = local.namespace
     name      = "legacy"
@@ -35,11 +35,11 @@ resource "kubernetes_deployment" "legacy" {
           }
           env {
             name = "DATA_SERVICE_URL"
-            value = "http://food_to_go:9080/"
+            value = "http://legacy:9080/"
           }
           env {
             name = "DATA_SERVICE_JDBC_URL"
-            value = format("jdbc:postgresql://legacy_postgres:5432/%s", var.gateway_postgres_db)
+            value = format("jdbc:postgresql://legacy-postgres:5432/%s", var.gateway_postgres_db)
           }
           env {
             name  = "DATA_SERVICE_POSTGRES_USERNAME"
@@ -77,27 +77,27 @@ resource "kubernetes_service" "legacy" {
   }
 }
 
-resource "kubernetes_deployment" "legacy_postgres" {
+resource "kubernetes_deployment" "legacy-postgres" {
   metadata {
-    name = "legacy_postgres"
+    name = "legacy-postgres"
     namespace = local.namespace
   }
   spec {
     selector {
       match_labels = {
-        app = "legacy_postgres"
+        app = "legacy-postgres"
       }
     }
     template {
       metadata {
         labels = {
-          app = "legacy_postgres"
+          app = "legacy-postgres"
         }
       }
       spec {
         priority_class_name = local.priority
         container {
-          name = "legacy_postgres"
+          name = "legacy-postgres"
           image = "tobiaszimmer/exam-legacy-system:main-postgres"
           env {
             name = "POSTGRES_USER"
@@ -117,14 +117,14 @@ resource "kubernetes_deployment" "legacy_postgres" {
   }
 }
 
-resource "kubernetes_service" "legacy_postgres" {
+resource "kubernetes_service" "legacy-postgres" {
   metadata {
-    name = "legacy_postgres"
+    name = "legacy-postgres"
     namespace = local.namespace
   }
   spec {
     selector = {
-      app = "legacy_postgres"
+      app = "legacy-postgres"
     }
     port {
       port = 5432
@@ -133,27 +133,27 @@ resource "kubernetes_service" "legacy_postgres" {
   }
 }
 
-resource "kubernetes_deployment" "legacy_redis" {
+resource "kubernetes_deployment" "legacy-redis" {
   metadata {
-    name = "legacy_redis"
+    name = "legacy-redis"
     namespace = local.namespace
   }
   spec {
     selector {
       match_labels = {
-        app = "legacy_redis"
+        app = "legacy-redis"
       }
     }
     template {
       metadata {
         labels = {
-          app = "legacy_redis"
+          app = "legacy-redis"
         }
       }
       spec {
         priority_class_name = local.priority
         container {
-          name = "legacy_redis"
+          name = "legacy-redis"
           image = "redis:6.2-alpine"
         }
       }
@@ -161,14 +161,14 @@ resource "kubernetes_deployment" "legacy_redis" {
   }
 }
 
-resource "kubernetes_service" "legacy_redis" {
+resource "kubernetes_service" "legacy-redis" {
   metadata {
-    name = "legacy_redis"
+    name = "legacy-redis"
     namespace = local.namespace
   }
   spec {
     selector = {
-      app = "legacy_redis"
+      app = "legacy-redis"
     }
     port {
       port = 6379
@@ -177,31 +177,31 @@ resource "kubernetes_service" "legacy_redis" {
   }
 }
 
-resource "kubernetes_deployment" "legacy_translator" {
-  depends_on = [kubernetes_deployment.kafka_connect, time_sleep.wait_for_gateway]
+resource "kubernetes_deployment" "legacy-translator" {
+  depends_on = [kubernetes_deployment.kafka-connect, time_sleep.wait_for_gateway]
   metadata {
-    name = "legacy_translator"
+    name = "legacy-translator"
     namespace = local.namespace
   }
   spec {
     selector {
       match_labels = {
-        app = "legacy_translator"
+        app = "legacy-translator"
       }
     }
     template {
       metadata {
         labels = {
-          app = "legacy_translator"
+          app = "legacy-translator"
         }
       }
       spec {
         container {
-          name = "legacy_translator"
+          name = "legacy-translator"
           image = "tobiaszimmer/exam-legacy-translator:development-0.0.1-snapshot"
           env {
             name = "KAFKA_CONNECT_HOST"
-            value = "kafka_connect"
+            value = "kafka-connect"
           }
           env {
             name = "KAFKA_CONNECT_PORT"
@@ -213,7 +213,7 @@ resource "kubernetes_deployment" "legacy_translator" {
           }
           env {
             name = "LEGACY_DB_URL"
-            value = format("jdbc:postgresql://legacy_postgres:5432/%s", var.gateway_postgres_db)
+            value = format("jdbc:postgresql://legacy-postgres:5432/%s", var.gateway_postgres_db)
           }
           env {
             name  = "LEGACY_DB_USERNAME"
