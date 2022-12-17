@@ -24,7 +24,7 @@ resource "kubernetes_deployment" "restaurant" {
         priority_class_name = local.priority
         container {
           name  = "restaurant"
-          image = "tobiaszimmer/exam-restaurant-service:main-1.0.0-release"
+          image = "tobiaszimmer/exam-restaurant-service:main-1.0.1-release"
           env {
             name  = "RESTAURANT_SERVICE_DB"
             value = format("jdbc:postgresql://postgres-restaurant-postgresql:5432/%s", var.restaurant_postgres_db)

@@ -23,7 +23,7 @@ resource "kubernetes_deployment" "gateway" {
         priority_class_name = local.priority
         container {
           name  = "gateway"
-          image = "tobiaszimmer/exam-api-gateway:main-1.0.1-release"
+          image = "tobiaszimmer/exam-api-gateway:main-1.0.4-release"
           env {
             name  = "GATEWAY_SERVER_PORT"
             value = 8080
