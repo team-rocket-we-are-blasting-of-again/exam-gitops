@@ -3,7 +3,7 @@ resource "kubernetes_deployment" "courier" {
   metadata {
     namespace = local.namespace
     name      = "courier"
-    labels    = {
+    labels = {
       app = "courier"
     }
   }
@@ -25,15 +25,15 @@ resource "kubernetes_deployment" "courier" {
           name  = "courier"
           image = "tobiaszimmer/exam-courier-service:main-1.1.0-RELEASE"
           env {
-            name = "COURIER_SERVICE_PORT"
+            name  = "COURIER_SERVICE_PORT"
             value = "8080"
           }
           env {
-            name = "COURIER_SERVICE_DDL_MODE"
+            name  = "COURIER_SERVICE_DDL_MODE"
             value = "create"
           }
           env {
-            name = "COURIER_SERVICE_DB"
+            name  = "COURIER_SERVICE_DB"
             value = format("jdbc:postgresql://postgres-courier-postgresql:5432/%s", var.courier_postgres_db)
           }
           env {
@@ -45,27 +45,27 @@ resource "kubernetes_deployment" "courier" {
             value = var.courier_postgres_user_password
           }
           env {
-            name = "CASE_MANAGEMENT_CAMUNDA_BASE_URL"
+            name  = "CASE_MANAGEMENT_CAMUNDA_BASE_URL"
             value = "http://camunda:8080/engine-rest"
           }
           env {
-            name = "KAFKA_BOOTSTRAP_SERVER"
+            name  = "KAFKA_BOOTSTRAP_SERVER"
             value = "kafka:9092"
           }
           env {
-            name = "AUTH_GRPC_HOST"
+            name  = "AUTH_GRPC_HOST"
             value = "auth"
           }
           env {
-            name = "AUTH_GRPC_PORT"
+            name  = "AUTH_GRPC_PORT"
             value = "8080"
           }
           env {
-            name = "CUSTOMER_GRPC_HOST"
+            name  = "CUSTOMER_GRPC_HOST"
             value = "customer"
           }
           env {
-            name = "CUSTOMER_GRPC_PORT"
+            name  = "CUSTOMER_GRPC_PORT"
             value = "9012"
           }
           env {

@@ -4,7 +4,7 @@ resource "kubernetes_deployment" "restaurant" {
   metadata {
     namespace = local.namespace
     name      = "restaurant"
-    labels    = {
+    labels = {
       app = "restaurant"
     }
   }
@@ -26,7 +26,7 @@ resource "kubernetes_deployment" "restaurant" {
           name  = "restaurant"
           image = "tobiaszimmer/exam-restaurant-service:main-1.0.0-release"
           env {
-            name = "RESTAURANT_SERVICE_DB"
+            name  = "RESTAURANT_SERVICE_DB"
             value = format("jdbc:postgresql://postgres-restaurant-postgresql:5432/%s", var.restaurant_postgres_db)
           }
           env {
@@ -38,27 +38,27 @@ resource "kubernetes_deployment" "restaurant" {
             value = var.restaurant_postgres_user_password
           }
           env {
-            name = "CASE_MANAGEMENT_CAMUNDA_BASE_URL"
+            name  = "CASE_MANAGEMENT_CAMUNDA_BASE_URL"
             value = "http://camunda:8080/engine-rest"
           }
           env {
-            name = "KAFKA_BOOTSTRAP_SERVER"
+            name  = "KAFKA_BOOTSTRAP_SERVER"
             value = "kafka:9092"
           }
           env {
-            name = "AUTH_GRPC_HOST"
+            name  = "AUTH_GRPC_HOST"
             value = "auth"
           }
           env {
-            name = "AUTH_GRPC_PORT"
+            name  = "AUTH_GRPC_PORT"
             value = "8080"
           }
           env {
-            name = "GRPC_SERVER_PORT"
+            name  = "GRPC_SERVER_PORT"
             value = "9791"
           }
           env {
-            name = "RESTAURANT_SERVICE_PORT"
+            name  = "RESTAURANT_SERVICE_PORT"
             value = "8080"
           }
           env {
@@ -100,12 +100,12 @@ resource "kubernetes_service" "restaurant" {
       app = "restaurant"
     }
     port {
-      name = "rest"
+      name        = "rest"
       port        = 8080
       target_port = "8080"
     }
     port {
-      name = "grpc"
+      name        = "grpc"
       port        = 9791
       target_port = "9791"
     }

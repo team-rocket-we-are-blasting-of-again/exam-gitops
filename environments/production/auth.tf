@@ -3,7 +3,7 @@ resource "kubernetes_deployment" "auth" {
   metadata {
     namespace = local.namespace
     name      = "auth"
-    labels    = {
+    labels = {
       app = "auth"
     }
   }
@@ -95,12 +95,12 @@ resource "kubernetes_service" "auth" {
       app = "auth"
     }
     port {
-      name = "rest"
+      name        = "rest"
       port        = 8080
       target_port = "8080"
     }
     port {
-      name = "grpc"
+      name        = "grpc"
       port        = 50051
       target_port = "50051"
     }

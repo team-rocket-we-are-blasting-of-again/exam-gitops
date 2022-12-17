@@ -3,7 +3,7 @@ resource "kubernetes_deployment" "customer" {
   metadata {
     namespace = local.namespace
     name      = "customer"
-    labels    = {
+    labels = {
       app = "customer"
     }
   }
@@ -25,7 +25,7 @@ resource "kubernetes_deployment" "customer" {
           name  = "customer"
           image = "tobiaszimmer/exam-customer-service:main-1.0.3-RELEASE"
           env {
-            name = "SPRING_DATASOURCE_URL"
+            name  = "SPRING_DATASOURCE_URL"
             value = format("jdbc:postgresql://postgres-customer-postgresql:5432/%s", var.customer_postgres_db)
           }
           env {
@@ -37,23 +37,23 @@ resource "kubernetes_deployment" "customer" {
             value = var.customer_postgres_user_password
           }
           env {
-            name = "CAMUNDA_ENGINE_REST"
+            name  = "CAMUNDA_ENGINE_REST"
             value = "http://camunda:8080/engine-rest/"
           }
           env {
-            name = "KAFKA_BOOTSTRAP_SERVERS"
+            name  = "KAFKA_BOOTSTRAP_SERVERS"
             value = "kafka:9092"
           }
           env {
-            name = "AUTH_GRPC_URL"
+            name  = "AUTH_GRPC_URL"
             value = "static://auth:50051"
           }
           env {
-            name = "RESTAURANT_GRPC_URL"
+            name  = "RESTAURANT_GRPC_URL"
             value = "static://restaurant:9791"
           }
           env {
-            name = "GRPC_SERVER_PORT"
+            name  = "GRPC_SERVER_PORT"
             value = "9012"
           }
           env {
@@ -95,12 +95,12 @@ resource "kubernetes_service" "customer" {
       app = "customer"
     }
     port {
-      name = "rest"
+      name        = "rest"
       port        = 8012
       target_port = "8012"
     }
     port {
-      name = "grpc"
+      name        = "grpc"
       port        = 9012
       target_port = "9012"
     }

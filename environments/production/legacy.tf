@@ -4,7 +4,7 @@ resource "kubernetes_deployment" "legacy" {
   metadata {
     namespace = local.namespace
     name      = "legacy"
-    labels    = {
+    labels = {
       app = "legacy"
     }
   }
@@ -26,19 +26,19 @@ resource "kubernetes_deployment" "legacy" {
           name  = "legacy"
           image = "tobiaszimmer/exam-legacy-system:main-1.0.0"
           env {
-            name = "REDIS_HOST"
+            name  = "REDIS_HOST"
             value = "legacy_redis"
           }
           env {
-            name = "REDIS_PORT"
+            name  = "REDIS_PORT"
             value = 6379
           }
           env {
-            name = "DATA_SERVICE_URL"
+            name  = "DATA_SERVICE_URL"
             value = "http://legacy:9080/"
           }
           env {
-            name = "DATA_SERVICE_JDBC_URL"
+            name  = "DATA_SERVICE_JDBC_URL"
             value = format("jdbc:postgresql://legacy-postgres:5432/%s", var.gateway_postgres_db)
           }
           env {
@@ -65,12 +65,12 @@ resource "kubernetes_service" "legacy" {
       app = "legacy"
     }
     port {
-      name = "data-service"
+      name        = "data-service"
       port        = 9080
       target_port = "9080"
     }
     port {
-      name = "entry-service"
+      name        = "entry-service"
       port        = 9085
       target_port = "9085"
     }
@@ -79,7 +79,7 @@ resource "kubernetes_service" "legacy" {
 
 resource "kubernetes_deployment" "legacy-postgres" {
   metadata {
-    name = "legacy-postgres"
+    name      = "legacy-postgres"
     namespace = local.namespace
   }
   spec {
@@ -97,18 +97,18 @@ resource "kubernetes_deployment" "legacy-postgres" {
       spec {
         priority_class_name = local.priority
         container {
-          name = "legacy-postgres"
+          name  = "legacy-postgres"
           image = "tobiaszimmer/exam-legacy-system:main-postgres"
           env {
-            name = "POSTGRES_USER"
+            name  = "POSTGRES_USER"
             value = var.gateway_postgres_user
           }
           env {
-            name = "POSTGRES_PASSWORD"
+            name  = "POSTGRES_PASSWORD"
             value = var.gateway_postgres_user_password
           }
           env {
-            name = "POSTGRES_DB"
+            name  = "POSTGRES_DB"
             value = var.gateway_postgres_db
           }
         }
@@ -119,7 +119,7 @@ resource "kubernetes_deployment" "legacy-postgres" {
 
 resource "kubernetes_service" "legacy-postgres" {
   metadata {
-    name = "legacy-postgres"
+    name      = "legacy-postgres"
     namespace = local.namespace
   }
   spec {
@@ -127,7 +127,7 @@ resource "kubernetes_service" "legacy-postgres" {
       app = "legacy-postgres"
     }
     port {
-      port = 5432
+      port        = 5432
       target_port = "5432"
     }
   }
@@ -135,7 +135,7 @@ resource "kubernetes_service" "legacy-postgres" {
 
 resource "kubernetes_deployment" "legacy-redis" {
   metadata {
-    name = "legacy-redis"
+    name      = "legacy-redis"
     namespace = local.namespace
   }
   spec {
@@ -153,7 +153,7 @@ resource "kubernetes_deployment" "legacy-redis" {
       spec {
         priority_class_name = local.priority
         container {
-          name = "legacy-redis"
+          name  = "legacy-redis"
           image = "redis:6.2-alpine"
         }
       }
@@ -163,7 +163,7 @@ resource "kubernetes_deployment" "legacy-redis" {
 
 resource "kubernetes_service" "legacy-redis" {
   metadata {
-    name = "legacy-redis"
+    name      = "legacy-redis"
     namespace = local.namespace
   }
   spec {
@@ -171,7 +171,7 @@ resource "kubernetes_service" "legacy-redis" {
       app = "legacy-redis"
     }
     port {
-      port = 6379
+      port        = 6379
       target_port = "6379"
     }
   }
@@ -180,7 +180,7 @@ resource "kubernetes_service" "legacy-redis" {
 resource "kubernetes_deployment" "legacy-translator" {
   depends_on = [kubernetes_deployment.kafka-connect, time_sleep.wait_for_gateway]
   metadata {
-    name = "legacy-translator"
+    name      = "legacy-translator"
     namespace = local.namespace
   }
   spec {
@@ -197,22 +197,22 @@ resource "kubernetes_deployment" "legacy-translator" {
       }
       spec {
         container {
-          name = "legacy-translator"
+          name  = "legacy-translator"
           image = "tobiaszimmer/exam-legacy-translator:development-0.0.1-snapshot"
           env {
-            name = "KAFKA_CONNECT_HOST"
+            name  = "KAFKA_CONNECT_HOST"
             value = "kafka-connect"
           }
           env {
-            name = "KAFKA_CONNECT_PORT"
+            name  = "KAFKA_CONNECT_PORT"
             value = "8083"
           }
           env {
-            name = "KAFKA_BOOTSTRAP_SERVERS"
+            name  = "KAFKA_BOOTSTRAP_SERVERS"
             value = "kafka:9092"
           }
           env {
-            name = "LEGACY_DB_URL"
+            name  = "LEGACY_DB_URL"
             value = format("jdbc:postgresql://legacy-postgres:5432/%s", var.gateway_postgres_db)
           }
           env {
@@ -224,7 +224,7 @@ resource "kubernetes_deployment" "legacy-translator" {
             value = var.gateway_postgres_user_password
           }
           env {
-            name = "RESTAURANT_DB_URL"
+            name  = "RESTAURANT_DB_URL"
             value = format("jdbc:postgresql://postgres-restaurant-postgresql:5432/%s", var.restaurant_postgres_db)
           }
           env {
@@ -236,7 +236,7 @@ resource "kubernetes_deployment" "legacy-translator" {
             value = var.restaurant_postgres_user_password
           }
           env {
-            name = "POLL_INTERVAL_MS"
+            name  = "POLL_INTERVAL_MS"
             value = "10000"
           }
         }

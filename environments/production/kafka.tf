@@ -137,7 +137,7 @@ resource "kubernetes_service" "zookeeper" {
 resource "kubernetes_deployment" "kafka-connect" {
   depends_on = [kubernetes_deployment.kafka, time_sleep.wait_for_gateway]
   metadata {
-    name = "kafka-connect"
+    name      = "kafka-connect"
     namespace = local.namespace
   }
   spec {
@@ -155,10 +155,10 @@ resource "kubernetes_deployment" "kafka-connect" {
       spec {
         priority_class_name = local.priority
         container {
-          name = "kafka-connect"
+          name  = "kafka-connect"
           image = "tobiaszimmer/exam-prebuilt-images:kafka-connect-22-08-2022-12-15"
           env {
-            name = "BOOTSTRAP_SERVERS"
+            name  = "BOOTSTRAP_SERVERS"
             value = "kafka:9092"
           }
         }
@@ -169,7 +169,7 @@ resource "kubernetes_deployment" "kafka-connect" {
 
 resource "kubernetes_service" "kafka-connect" {
   metadata {
-    name = "kafka-connect"
+    name      = "kafka-connect"
     namespace = local.namespace
   }
   spec {
@@ -177,7 +177,7 @@ resource "kubernetes_service" "kafka-connect" {
       app = "kafka-connect"
     }
     port {
-      port = 8083
+      port        = 8083
       target_port = "8083"
     }
   }

@@ -24,19 +24,19 @@ resource "kubernetes_deployment" "notification" {
           name  = "notification"
           image = "tobiaszimmer/exam-notification-service:master-1.0.0-release"
           env {
-            name = "FROM_EMAIL"
+            name  = "FROM_EMAIL"
             value = "tobias.zimmer@hotmail.com"
           }
           env {
-            name = "FROM_PASSWORD"
+            name  = "FROM_PASSWORD"
             value = var.email_password
           }
           env {
-            name = "SERVER_PORT"
+            name  = "SERVER_PORT"
             value = "8080"
           }
           env {
-            name = "KAFKA_BOOTSTRAP_SERVER"
+            name  = "KAFKA_BOOTSTRAP_SERVER"
             value = "kafka:9092"
           }
         }
