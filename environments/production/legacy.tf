@@ -65,12 +65,12 @@ resource "kubernetes_service" "legacy" {
       app = "legacy"
     }
     port {
-      name = "data_service"
+      name = "data-service"
       port        = 9080
       target_port = "9080"
     }
     port {
-      name = "entry_service"
+      name = "entry-service"
       port        = 9085
       target_port = "9085"
     }
