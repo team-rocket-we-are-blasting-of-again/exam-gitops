@@ -6,10 +6,7 @@ resource "digitalocean_kubernetes_cluster" "mtogo" {
   node_pool {
     name       = "autoscale-worker-pool"
     size       = "s-2vcpu-2gb"
-    node_count = 5
-    #    auto_scale = true
-    #    min_nodes  = 1
-    #    max_nodes  = 3
+    node_count = 6
   }
 }
 
@@ -68,6 +65,7 @@ module "production" {
   restaurant_postgres_db = var.restaurant_postgres_db
   restaurant_postgres_user = var.restaurant_postgres_user
   restaurant_postgres_user_password = var.restaurant_postgres_user_password
+  email_password = var.email_password
 }
 
 #module "test" {

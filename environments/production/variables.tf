@@ -109,3 +109,7 @@ variable "courier_postgres_user_password" {
 variable "courier_postgres_db" {
   type = string
 }
+
+variable "email_password" {
+  type = string
+}

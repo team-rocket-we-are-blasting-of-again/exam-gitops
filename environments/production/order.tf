@@ -22,7 +22,7 @@ resource "kubernetes_deployment" "order" {
       spec {
         container {
           name  = "order"
-          image = "tobiaszimmer/exam-order-service:master-1.0.0-release"
+          image = "tobiaszimmer/exam-order-service:master-1.0.1-release"
           env {
             name  = "SPRING_DATASOURCE_URL"
             value = format("jdbc:postgresql://postgres-order-postgresql:5432/%s", var.order_postgres_db)

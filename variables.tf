@@ -122,3 +122,7 @@ variable "customer_postgres_user_password" {
 variable "customer_postgres_db" {
   type = string
 }
+
+variable "email_password" {
+  type = string
+}
