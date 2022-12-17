@@ -1,6 +1,6 @@
 # TODO: depends on auth
 resource "kubernetes_deployment" "legacy" {
-  depends_on = [time_sleep.wait_for_gateway, kubernetes_deployment.kafka, kubernetes_deployment.legacy-postgres, kubernetes_deployment.legacy-redis, kubernetes_deployment.kafka_connect]
+  depends_on = [time_sleep.wait_for_gateway, kubernetes_deployment.kafka, kubernetes_deployment.legacy-postgres, kubernetes_deployment.legacy-redis, kubernetes_deployment.kafka-connect]
   metadata {
     namespace = local.namespace
     name      = "legacy"
